@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">iWallet</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Mobile Number</string>
+    <string name="prompt_password">Mobile Number</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This mobile number is invalid</string>
+    <string name="error_invalid_password">This mobile  number is too short</string>
+    <string name="error_incorrect_password">This mobile number is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_payment">Transact</string>
+    <string name="title_activity_geo_pay">GeoPay</string>
+    <string name="title_activity_qr_pay">QrPay</string>
+    <string name="title_activity_basket">Basket</string>
+    <string name="title_activity_deposit">Deposit</string>
+    <string name="title_activity_account">Account</string>
+</resources>

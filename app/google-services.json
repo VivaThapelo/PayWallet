@@ -1,0 +1,151 @@
+{
+  "project_info": {
+    "project_number": "360685159434",
+    "firebase_url": "https://iwallet-fdec1.firebaseio.com",
+    "project_id": "iwallet-fdec1",
+    "storage_bucket": "iwallet-fdec1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360685159434:android:63cc286e6813025a",
+        "android_client_info": {
+          "package_name": "com.creditable.thapeloradebe.iwallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360685159434-3gtt7f95884o2kukiihj4hmj98qkmr4g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.creditable.thapeloradebe.iwallet",
+            "certificate_hash": "7dbbe2d629dff15c4f2fdc7b9b15a5aa55b25d32"
+          }
+        },
+        {
+          "client_id": "360685159434-2tgcueus3pb7s57jakl7gs4ohe7k7c2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfCcfu7whoxnFaxEkATL3WVn4uU6Zi3J4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360685159434-2tgcueus3pb7s57jakl7gs4ohe7k7c2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360685159434:android:2575a9bc709c7ad0",
+        "android_client_info": {
+          "package_name": "com.ktrlabs.thapelo.payola"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360685159434-qk74ldk4t9a84qiu1iagj9le3lpkgvvg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ktrlabs.thapelo.payola",
+            "certificate_hash": "bc94c9b4aab9b23e84c6a29e3472e42236fbd60d"
+          }
+        },
+        {
+          "client_id": "360685159434-2tgcueus3pb7s57jakl7gs4ohe7k7c2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfCcfu7whoxnFaxEkATL3WVn4uU6Zi3J4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360685159434-2tgcueus3pb7s57jakl7gs4ohe7k7c2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360685159434:android:e87528f24dfe676c",
+        "android_client_info": {
+          "package_name": "com.ktrlabs.thapelo.iwallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360685159434-gitaulqdc97uoiavkjietej315n5b79q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ktrlabs.thapelo.iwallet",
+            "certificate_hash": "1053f0477c8b1fc340b6f3c5f0962dc053b92521"
+          }
+        },
+        {
+          "client_id": "360685159434-tvb9eaibcs649sev1evilfsjk9lua4j5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ktrlabs.thapelo.iwallet",
+            "certificate_hash": "bc94c9b4aab9b23e84c6a29e3472e42236fbd60d"
+          }
+        },
+        {
+          "client_id": "360685159434-2tgcueus3pb7s57jakl7gs4ohe7k7c2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfCcfu7whoxnFaxEkATL3WVn4uU6Zi3J4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360685159434-2tgcueus3pb7s57jakl7gs4ohe7k7c2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

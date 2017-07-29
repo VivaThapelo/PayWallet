@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.ktrlabs.thapelo.iwallet.PaymentActivity"
+    tools:showIn="@layout/activity_payment">
+
+        <LinearLayout
+            android:id="@+id/payment"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/send_account_number"
+                android:text="Enter Amount"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="0sp"
+                android:layout_width="match_parent"
+                android:clickable="true"
+                android:layout_height="match_parent" />
+
+            //user view
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/white"
+                android:divider="@color/white"
+                android:layout_height="match_parent">
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/profile_image"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:civ_shadow_radius="1"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="0dp"
+                    android:paddingTop="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:paddingBottom="0dp"
+                    android:src="@drawable/propic"
+                    app:civ_border_width="8dp"
+                    app:civ_border_color="@color/white"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_weight="8"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:text="Thapelo Radebe"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_marginTop="-4dp"
+                        android:id="@+id/type"
+                        android:textSize="12sp"
+                        android:textColor="#666666"
+                        android:text="Transfer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:textSize="11sp"
+                        android:textColor="@color/near_white"
+                        android:text="15:50 - 12 may 2017"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:layout_weight="0"
+                    android:paddingRight="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/amount"
+                        android:textSize="18sp"
+                        android:text="R0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/fee"
+                        android:layout_marginTop="-4dp"
+                        android:layout_gravity="right"
+                        android:textSize="11sp"
+                        android:textColor="#d1070a"
+                        android:text="0.0c fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="0dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="R"
+                    android:layout_weight="0"
+                    android:paddingLeft="16sp"
+                    android:paddingRight="8dp"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:background="@color/white"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/send_amount"
+                    android:inputType="numberDecimal"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_weight="6"
+                    android:layout_gravity="center_vertical"
+                    android:textColorHint="#BBB"
+                    android:background="@color/white"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:hint="AMOUNT"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <ImageButton
+                    android:id="@+id/send_clear"
+                    android:src="@drawable/ic_clear_black_24dp"
+                    android:background="@color/white"
+                    android:layout_weight="0"
+                    android:padding="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            //Grid numbers
+            <LinearLayout
+                android:id="@+id/keyboard"
+                android:orientation="vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="8dp"
+                android:paddingRight="8dp"
+                android:paddingLeft="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:onClick="pinCode"
+                        android:text="1"
+                        android:textSize="20dp"
+                        android:fadingEdgeLength="24sp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@color/background"
+                        android:layout_margin="2dp"
+                        android:layout_weight="10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:onClick="pinCode"
+                        android:text="2"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@color/background"
+                        android:layout_margin="2dp"
+                        android:layout_weight="10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:onClick="pinCode"
+                        android:text="3"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@color/background"
+                        android:layout_margin="2dp"
+                        android:layout_weight="10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:onClick="pinCode"
+                        android:text="4"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@color/background"
+                        android:layout_margin="2dp"
+                        android:layout_weight="10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:onClick="pinCode"
+                        android:text="5"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@color/background"
+                        android:layout_margin="2dp"
+                        android:layout_weight="10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:onClick="pinCode"
+                        android:text="6"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@color/background"
+                        android:layout_margin="2dp"
+                        android:layout_weight="10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:onClick="pinCode"
+                        android:text="7"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@color/background"
+                        android:layout_margin="2dp"
+                        android:layout_weight="10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:onClick="pinCode"
+                        android:text="8"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@color/background"
+                        android:layout_margin="2dp"
+                        android:layout_weight="10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:onClick="pinCode"
+                        android:text="9"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@color/background"
+                        android:layout_margin="2dp"
+                        android:layout_weight="10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:onClick="pinCode"
+                        android:text="."
+                        android:textSize="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@color/background"
+                        android:layout_margin="2dp"
+                        android:layout_weight="10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:onClick="pinCode"
+                        android:text="0"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@color/background"
+                        android:layout_margin="2dp"
+                        android:layout_weight="10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:id="@+id/send_button"
+                        android:text="Send"
+                        android:textSize="20dp"
+                        android:textColor="@color/white"
+                        android:background="@color/colorPrimaryDark"
+                        android:layout_margin="2dp"
+                        android:layout_weight="10"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:fadingEdgeLength="10sp"
+                android:text="Send"
+                android:visibility="gone"
+                android:textStyle="bold"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="@color/colorPrimaryDark"
+                android:layout_weight="0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+</LinearLayout>
