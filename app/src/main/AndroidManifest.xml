@@ -73,7 +73,7 @@
                 android:value="com.ktrlabs.thapelo.iwallet.MainActivity" />
         </activity>
         <activity
-            android:name=".QrPayActivity"
+            android:name=".QuickPayActivity"
             android:label="@string/title_activity_qr_pay"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">

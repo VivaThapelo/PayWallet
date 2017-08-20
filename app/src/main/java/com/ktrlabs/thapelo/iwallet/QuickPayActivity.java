@@ -2,6 +2,8 @@ package com.ktrlabs.thapelo.iwallet;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,9 +26,10 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.security.Timestamp;
 import java.sql.Time;
+import java.util.Arrays;
 import java.util.Calendar;
 
-public class QrPayActivity extends AppCompatActivity {
+public class QuickPayActivity extends AppCompatActivity {
     public final static int QRcodeWidth = 250;
     private int seconds;
     @Override
@@ -59,19 +62,9 @@ public class QrPayActivity extends AppCompatActivity {
             Log.d("data", jObj.toString());
             String RecipientDetails = jObj.toString();
             new getQrCode().execute(RecipientDetails);
+            new getBarCode().execute("618704559321");
         }
 
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // refresh this Activity here
-                Snackbar.make(view, "Regenerating new QR code", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
@@ -98,8 +91,55 @@ public class QrPayActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap s) {
             super.onPostExecute(s);
             ((ImageView) findViewById(R.id.qr_receive)).setImageBitmap(s);
+        }
+    }
+
+    public class getBarCode extends AsyncTask<String, String, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            Bitmap bitmap = null;
+            try {
+                Log.d("data", params[0]);
+                bitmap = getBar(params[0]);
+            } catch (WriterException e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
 
         }
+
+        @Override
+        protected void onPostExecute(Bitmap s) {
+            super.onPostExecute(s);
+            ((ImageView) findViewById(R.id.barq_receive)).setImageBitmap(s);
+        }
+    }
+
+    private Bitmap getBar(String data) throws WriterException {
+        int width = 300;
+        int height = 100;
+        MultiFormatWriter writer = new MultiFormatWriter();
+        String finalData = Uri.encode(data);
+
+        // Use 1 as the height of the matrix as this is a 1D Barcode.
+        BitMatrix bm = writer.encode(finalData, BarcodeFormat.CODE_128, width, 1);
+        int bmWidth = bm.getWidth();
+
+        Bitmap imageBitmap = Bitmap.createBitmap(bmWidth, height, Bitmap.Config.ARGB_8888);
+
+        for (int i = 0; i < bmWidth; i++) {
+            // Paint columns of width 1
+            int[] column = new int[height];
+            Arrays.fill(column, bm.get(i, 0) ? Color.BLACK : Color.WHITE);
+            imageBitmap.setPixels(column, 0, 1, i, 0, 1, height);
+        }
+
+        return imageBitmap;
     }
 
     Bitmap getQr(String Value) throws WriterException {

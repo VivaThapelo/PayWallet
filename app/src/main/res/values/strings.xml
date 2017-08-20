@@ -20,7 +20,7 @@
     </string>
     <string name="title_activity_payment">Transact</string>
     <string name="title_activity_geo_pay">GeoPay</string>
-    <string name="title_activity_qr_pay">QrPay</string>
+    <string name="title_activity_qr_pay">QuickPay</string>
     <string name="title_activity_basket">Basket</string>
     <string name="title_activity_deposit">Deposit</string>
     <string name="title_activity_account">Account</string>

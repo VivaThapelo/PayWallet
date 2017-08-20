@@ -7,14 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,8 +33,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -50,7 +46,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -86,10 +81,8 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import mehdi.sakout.dynamicbox.DynamicBox;
 
@@ -1046,14 +1039,12 @@ public class MainActivity extends AppCompatActivity
 
     public void goToQrPay(View view)
     {
-        ImageButton imageButton = (ImageButton)view;
-        Intent intent = new Intent(this, QrPayActivity.class);
+        Intent intent = new Intent(this, QuickPayActivity.class);
         startActivity(intent);
     }
 
     public void goToBasket(View view)
     {
-        ImageButton imageButton = (ImageButton)view;
         Intent intent = new Intent(this, Basket.class);
         startActivity(intent);
     }

@@ -335,19 +335,19 @@
 
             </LinearLayout>
 
-            <Button
-                android:fadingEdgeLength="10sp"
-                android:text="Send"
-                android:visibility="gone"
-                android:textStyle="bold"
-                android:layout_gravity="bottom"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:background="@color/colorPrimaryDark"
-                android:layout_weight="0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
         </LinearLayout>
+
+    <Button
+        android:fadingEdgeLength="10sp"
+        android:text="Send"
+        android:visibility="gone"
+        android:textStyle="bold"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimaryDark"
+        android:layout_weight="0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

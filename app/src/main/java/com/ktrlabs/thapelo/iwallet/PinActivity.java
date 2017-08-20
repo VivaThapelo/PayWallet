@@ -47,7 +47,6 @@ public class PinActivity extends AppCompatActivity {
             PinPageText.setText("ENTER PIN");
         } else if (getIntent().getStringExtra("from").equals("payment")) {
             PinPageText.setText("ENTER PIN");
-            findViewById(R.id.payee).setVisibility(View.VISIBLE);
         }
 
     }
@@ -66,13 +65,13 @@ public class PinActivity extends AppCompatActivity {
 
 
     public void pinCode(View view) {
-        String key = ((Button)view).getText().toString();
+        String key = ((Button) view).getText().toString();
         Integer[] numbers = {0,1,2,3,4,5,6,7,8,9};
         pin_first = (EditText) findViewById(R.id.pin_first);
         pin_second = (EditText) findViewById(R.id.pin_second);
         pin_third = (EditText) findViewById(R.id.pin_third);
         pin_forth = (EditText) findViewById(R.id.pin_forth);
-        if (KeyisInteger(key)) {
+
             if(pin_first.getText().toString().isEmpty() || pin_first.getText().toString()=="") {
                 Log.d("PinPage","Clicked button:"+ key);
                 pin_first.setText(key);
@@ -103,15 +102,16 @@ public class PinActivity extends AppCompatActivity {
             }
 
 
-        } else {
-            Log.v("PinPage","This is not a number");
-            pin_first.getText().clear();
-            pin_second.getText().clear();
-            pin_third.getText().clear();
-            pin_forth.getText().clear();
-            pin_first.requestFocus();
-            pin_first.setShowSoftInputOnFocus(false);
-        }
+    }
+
+    public void clearCode(View view) {
+        Log.v("PinPage","This is not a number");
+        pin_first.getText().clear();
+        pin_second.getText().clear();
+        pin_third.getText().clear();
+        pin_forth.getText().clear();
+        pin_first.requestFocus();
+        pin_first.setShowSoftInputOnFocus(false);
     }
 
     String pin1,pinCode1,pin2;

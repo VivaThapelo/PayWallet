@@ -17,31 +17,53 @@
         android:elevation="2dp"
         android:background="@color/white"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="56dp">
 
         <android.support.v7.widget.SearchView
             android:id="@+id/search_bills"
             android:textColor="#777"
-            android:layout_weight="1"
+            android:layout_weight="20"
             app:defaultQueryHint="Search Accounts"
             android:background="@color/white"
             android:backgroundTint="@color/white"
             android:elevation="2dp"
+            android:focusableInTouchMode="true"
             android:queryHint="Today, This week or Month"
             android:layout_width="match_parent"
             android:layout_height="56dp" />
 
-        <ImageButton
-            android:id="@+id/bills_location"
-            android:src="@drawable/ic_place_black_24dp"
-            android:layout_weight="1"
-            android:padding="56dp"
+        <LinearLayout
+            android:orientation="vertical"
             android:elevation="4dp"
+            android:padding="8dp"
+            android:layout_weight="1"
+            android:visibility="gone"
             android:onClick="goToGeoPay"
-            android:tint="@color/colorPrimaryDark"
             android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="56dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="56dp">
+
+            <ImageButton
+                android:id="@+id/send_location"
+                android:src="@drawable/ic_place_black_24dp"
+                android:layout_gravity="center_horizontal"
+                android:padding="16dp"
+                android:layout_weight="1"
+                android:elevation="4dp"
+                android:tint="@color/colorPrimaryDark"
+                android:background="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp" />
+
+            <TextView
+                android:text="GeoPay"
+                android:textSize="11sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -49,7 +71,8 @@
     <ScrollView
         android:padding="4dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:isScrollContainer="false">
         //Grid numbers
         <LinearLayout
             android:id="@+id/keyboard"

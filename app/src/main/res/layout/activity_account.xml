@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.ktrlabs.thapelo.iwallet.Account">
 
     <android.support.design.widget.AppBarLayout
@@ -17,11 +18,65 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                app:civ_shadow_radius="1"
+                android:layout_gravity="center"
+                android:src="@drawable/propic"
+                app:civ_border_width="7dp"
+                app:civ_border_color="@color/colorPrimaryDark"/>
+            <TextView
+                android:text="Available Balance"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/account_details"
+                    android:text="Details"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp" />
+            <TextView
+                android:gravity="center"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:text="R5000"
+                android:layout_weight="6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+                <Button android:id="@+id/account_profile"
+                    android:text="Profile"
+                    android:background="@color/colorPrimary"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp" />
+
+            </LinearLayout>
+        </LinearLayout>
 
     </android.support.design.widget.AppBarLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <include layout="@layout/content_account" />
-
+    </ScrollView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -30,4 +85,4 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

@@ -18,40 +18,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/receive_qrcode"
-            android:src="@drawable/ic_edit_black_24dp"
-            android:layout_weight="1"
-            android:padding="56dp"
-            android:elevation="4dp"
-            android:visibility="gone"
-            android:tint="@color/colorPrimaryDark"
-            android:background="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp" />
-
         <Button
             android:id="@+id/select_contact_receive"
-            android:padding="18dp"
-            android:textColor="#777"
+            android:padding="4dp"
             android:layout_weight="1"
             android:clickable="false"
             android:background="@color/white"
-            android:text="Pay using a QR code"
+            android:text="618704"
+            android:textStyle="bold"
+            android:textSize="36dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <ImageButton
-            android:id="@+id/receive_location"
-            android:src="@drawable/ic_place_black_24dp"
-            android:layout_weight="1"
-            android:padding="56dp"
-            android:visibility="gone"
-            android:elevation="4dp"
-            android:tint="@color/colorPrimaryDark"
-            android:background="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp" />
 
     </LinearLayout>
 
@@ -70,27 +48,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
-
-
-                <TextView
-                    android:text="WalletID"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginTop="8sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/account_number"
-                    android:text="0747513324"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:layout_marginTop="4sp"
-                    android:layout_marginBottom="4sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/barq_receive"
+                    android:src="@mipmap/ic_launcher"
+                    android:foregroundGravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:padding="8dp"
+                    android:layout_width="300dp"
+                    android:layout_height="100dp" />
 
                 <ImageView
                     android:layout_gravity="center_horizontal"
