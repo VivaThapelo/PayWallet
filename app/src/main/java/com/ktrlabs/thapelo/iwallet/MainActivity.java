@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity
     MenuItem scanMenuItem = null;
     DecoratedBarcodeView cameraPreview;
     private CaptureManager capture;
-    public final static int QRcodeWidth = 250;
+    public final static int QRcodeWidth = 200;
     ImageView qrView = null;
     MenuItem balance = null;
     TransactionsAdapter transactionsAdapter = null;
@@ -271,11 +271,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ((Button) findViewById(R.id.select_contact_scanpay)).setPaintFlags(((Button) findViewById(R.id.select_contact_scanpay)).getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        ((Button) findViewById(R.id.select_contact_receive)).setPaintFlags(((Button) findViewById(R.id.select_contact_receive)).getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        //((Button) findViewById(R.id.select_contact_bills)).setPaintFlags(((Button) findViewById(R.id.select_contact_bills)).getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
-
         PermissionsManager.getInstance().requestAllManifestPermissionsIfNecessary(this,
                 new PermissionsResultAction() {
                     @Override
@@ -292,22 +287,6 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
-
-        SearchView searchTransactionView = (SearchView) findViewById(R.id.search_transaction);
-        searchTransactionView.setBackgroundColor(getResources().getColor(R.color.white));
-        searchTransactionView.setIconifiedByDefault(false);
-        searchTransactionView.requestFocusFromTouch();
-
-        SearchView searchShoppingView = (SearchView) findViewById(R.id.search_shopping);
-        searchShoppingView.setBackgroundColor(getResources().getColor(R.color.white));
-        searchShoppingView.setIconifiedByDefault(false);
-        searchShoppingView.requestFocusFromTouch();
-
-        SearchView billsShoppingView = (SearchView) findViewById(R.id.search_bills);
-        billsShoppingView.setBackgroundColor(getResources().getColor(R.color.white));
-        billsShoppingView.setIconifiedByDefault(false);
-        billsShoppingView.requestFocusFromTouch();
-
         if ((getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK) ==
                 Configuration.SCREENLAYOUT_SIZE_SMALL) {
@@ -317,14 +296,14 @@ public class MainActivity extends AppCompatActivity
             hideSoftKeyboard();
         }
 
-        final DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, MainActivity.this, 2017, 5, 22);
+       // final DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, MainActivity.this, 2017, 5, 22);
 
-        ((ImageButton) findViewById(R.id.datepicker)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePickerDialog.show();
-            }
-        });
+       // ((ImageButton) findViewById(R.id.datepicker)).setOnClickListener(new View.OnClickListener() {
+       //     @Override
+        //    public void onClick(View v) {
+       //         datePickerDialog.show();
+     //       }
+      //  });
 
 
         new BankAi().context = getApplicationContext();
@@ -375,6 +354,8 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (rcvAmtView != null || rcvAmtView.getText() != null) {
                     String amt = rcvAmtView.getText().toString();
+                    rcvAmtView.clearFocus();
+                    ((TextView) findViewById(R.id.receive_value)).setText(format.format(Float.parseFloat(amt)));
                     JSONObject data = new JSONObject();
                     String accountNumber = new BankAi().getStokedKey(getApplicationContext(), "AccountNumber");
                     String cellphone = new BankAi().getStokedKey(getApplicationContext(), "Cellphone");
@@ -395,6 +376,7 @@ public class MainActivity extends AppCompatActivity
                         new getQrCode().execute(RecipientDetails);
                     }
                 }
+                findViewById(R.id.receive_edit).setVisibility(View.GONE);
             }
         });
 
@@ -411,7 +393,7 @@ public class MainActivity extends AppCompatActivity
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode(navigation);
-        navigation.setSelectedItemId(R.id.navigation_send);
+        navigation.setSelectedItemId(R.id.navigation_bills);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -1035,6 +1017,10 @@ public class MainActivity extends AppCompatActivity
     {
         Intent intent = new Intent(this, GeoPay.class);
         startActivity(intent);
+    }
+
+    public void goToSetAmount(View view) {
+         findViewById(R.id.receive_edit).setVisibility(View.VISIBLE);
     }
 
     public void goToQrPay(View view)

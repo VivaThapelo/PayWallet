@@ -21,61 +21,43 @@
             android:elevation="4dp"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <!-- <LinearLayout
-             android:orientation="horizontal"
-             android:background="#e9e9e9"
-             android:gravity="center_horizontal"
-             android:layout_gravity="center_horizontal"
-             android:elevation="4dp"
-             android:padding="18sp"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content">
-
-             <TextView
-                 android:id="@+id/viewTitle"
-                 android:text="Current Balance"
-                 android:layout_weight="6"
-                 android:textSize="18dp"
-                 android:textColor="@color/colorPrimary"
-                 android:textAllCaps="true"
-                 android:textStyle="normal"
-                 android:layout_gravity="center_vertical|left"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content" />
-
-
-             <TextView
-                 android:id="@+id/balance"
-                 android:text="R500.00"
-                 android:textSize="18dp"
-                 android:layout_gravity="center_vertical|right"
-                 android:textColor="#555"
-                 android:textAllCaps="true"
-                 android:textStyle="bold"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content" />
-
-         </LinearLayout>-->
 
     </android.support.design.widget.AppBarLayout>
 
 
-    <include android:id="@+id/bills_transactions" layout="@layout/bills_page" android:visibility="gone" />
+    <include android:id="@+id/bills_transactions" layout="@layout/bills_page"  />
     <include android:id="@+id/send_transactions" layout="@layout/scanpay_page" android:visibility="gone" />
-    <include android:id="@+id/home_transactions" layout="@layout/transaction_page"  />
+    <include android:id="@+id/home_transactions" layout="@layout/transaction_page" android:visibility="gone" />
     <include android:id="@+id/receive_transactions" layout="@layout/receive_page" android:visibility="gone" />
     <include android:id="@+id/shopping_transactions" layout="@layout/shopping_page" android:visibility="gone" />
 
+    <FrameLayout
+        android:layout_gravity="bottom|center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
+        android:layout_gravity="bottom|center"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="-2dp"
         app:rippleColor="@color/colorPrimaryDark"
         app:backgroundTint="@color/colorPrimary"
         app:elevation="@dimen/fab_margin"
         app:srcCompat="@drawable/ic_action_scan" />
+
+        <TextView
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="3dp"
+            android:text="PAY"
+            android:textSize="10dp"
+            android:elevation="16dp"
+            android:textColor="@color/grayy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -87,5 +69,7 @@
         android:layout_gravity="bottom"
         app:elevation="8dp"
         app:menu="@menu/navigation" />
+
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -11,69 +11,379 @@
     tools:context="com.ktrlabs.thapelo.iwallet.MainActivity"
     tools:showIn="@layout/app_bar_transactions">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:elevation="4dp"
+        android:padding="18dp"
+        android:background="#e9e9e9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textStyle="bold"
+            android:text="Available Balance"
+            android:paddingBottom="4dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textSize="24dp"
+            android:layout_gravity="center"
+            android:text="R105,205.34"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textSize="11sp"
+            android:text="Account Number"
+            android:textColor="#777"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textSize="11sp"
+            android:text="10658970"
+            android:textColor="#777"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:elevation="2dp"
-        android:background="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp">
-
-        <android.support.v7.widget.SearchView
-            android:id="@+id/search_bills"
-            android:textColor="#777"
-            android:layout_weight="20"
-            app:defaultQueryHint="Search Accounts"
-            android:background="@color/white"
-            android:backgroundTint="@color/white"
-            android:elevation="2dp"
-            android:focusableInTouchMode="true"
-            android:queryHint="Today, This week or Month"
-            android:layout_width="match_parent"
-            android:layout_height="56dp" />
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
-            android:elevation="4dp"
+            android:orientation="horizontal"
+            android:layout_weight="10"
+            android:gravity="center"
             android:padding="8dp"
-            android:layout_weight="1"
-            android:visibility="gone"
-            android:onClick="goToGeoPay"
+            android:elevation="2dp"
+            android:layout_margin="4dp"
             android:background="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <ImageButton
-                android:id="@+id/send_location"
-                android:src="@drawable/ic_place_black_24dp"
-                android:layout_gravity="center_horizontal"
-                android:padding="16dp"
-                android:layout_weight="1"
-                android:elevation="4dp"
+            <ImageView
+                android:src="@drawable/ic_trending_up_black_24dp"
                 android:tint="@color/colorPrimaryDark"
-                android:background="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="56dp" />
-
-            <TextView
-                android:text="GeoPay"
-                android:textSize="11sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:layout_gravity="center_horizontal"
+                android:paddingRight="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="Deposit"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_weight="10"
+            android:gravity="center"
+            android:padding="8dp"
+            android:elevation="2dp"
+            android:background="@color/white"
+            android:layout_margin="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_trending_down_black_24dp"
+                android:paddingRight="8dp"
+                android:tint="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="Withdraw"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/banking"
+        android:orientation="vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:padding="4dp"
+        android:elevation="2dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <TextView
+            android:text="Menu"
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="0dp"
+                android:onClick="getContact"
+                android:layout_margin="4dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_send_black_24dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Send"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="0dp"
+                android:background="@color/white"
+                android:layout_margin="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_phone_iphone_black_24dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Prepaid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="0dp"
+                android:layout_margin="4dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_location_city_black_24dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Bills"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_margin="4dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_vpn_key_black_24dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="8dp"
+                android:background="@color/white"
+                android:layout_margin="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_account_balance_black_24dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Borrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_margin="4dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_poll_black_24dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Budget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:text="Products"
+            android:visibility="gone"
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_margin="4dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_shopping_basket_black_24dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Market"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="8dp"
+                android:background="@color/white"
+                android:layout_margin="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_shopping_cart_black_24dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Shopping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="8dp"
+                android:layout_margin="4dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_more_horiz_black_24dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="More"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <ScrollView
+        android:layout_margin="8dp"
         android:padding="4dp"
+        android:elevation="2dp"
+        android:visibility="gone"
+        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:isScrollContainer="false">
         //Grid numbers
+
         <LinearLayout
             android:id="@+id/keyboard"
             android:orientation="vertical"

@@ -13,46 +13,81 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:elevation="2dp"
-        android:background="@color/white"
-        android:layout_width="wrap_content"
+        android:elevation="4dp"
+        android:padding="4dp"
+        android:background="#e9e9e9"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/search_choices"
-            android:src="@drawable/ic_whatshot_black_24dp"
-            android:layout_weight="1"
-            android:padding="56dp"
-            android:elevation="8dp"
-            android:visibility="gone"
-            android:tint="@color/colorPrimaryDark"
-            android:background="@color/white"
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp"
+            android:layout_weight="10"
             android:layout_width="wrap_content"
-            android:layout_height="56dp" />
+            android:layout_height="wrap_content">
 
-    <android.support.v7.widget.SearchView
-        android:id="@+id/search_transaction"
-        android:textColor="#777"
-        android:layout_weight="1"
-        app:defaultQueryHint="Search Transactions"
-        android:background="@color/white"
-        android:backgroundTint="@color/white"
-        android:elevation="2dp"
-        android:queryHint="Today, This week or Month"
-        android:layout_width="match_parent"
-        android:layout_height="56dp" />
+            <TextView
+            android:text="Deposit"
+                android:textColor="@color/colorPrimaryDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
+            <TextView
+                android:id="@+id/total_deposits"
+                android:text="R5,000.00"
+                android:textSize="15dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <ImageButton
-           android:id="@+id/datepicker"
-            android:src="@drawable/ic_date_range_black_24dp"
-            android:layout_weight="1"
-            android:padding="56dp"
-            android:elevation="8dp"
-            android:tint="@color/colorPrimaryDark"
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="56dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp"
+            android:layout_weight="10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Payments"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/total_payments"
+                android:text="R2,753.00"
+                android:textSize="15dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="4dp"
+            android:layout_weight="10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Fees"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/total_fees"
+                android:text="R8.50"
+                android:textSize="15dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

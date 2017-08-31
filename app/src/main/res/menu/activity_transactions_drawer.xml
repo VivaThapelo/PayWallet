@@ -10,7 +10,7 @@
         <item
             android:id="@+id/nav_overseas"
             android:icon="@drawable/ic_public_black_24dp"
-            android:title="Transfer overseas" />
+            android:title="Nearby Merchants" />
 
         <item
             android:id="@+id/nav_voucher"

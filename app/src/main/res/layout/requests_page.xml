@@ -6,42 +6,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginBottom="56dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ktrlabs.thapelo.iwallet.MainActivity"
     tools:showIn="@layout/app_bar_transactions">
 
     <LinearLayout
         android:orientation="horizontal"
-        android:elevation="4dp"
-        android:background="@color/colorPrimary"
+        android:elevation="2dp"
+        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:elevation="2dp"
-            android:padding="8dp"
-            android:gravity="center"
-            android:layout_margin="8dp"
-            android:background="@color/colorPrimaryDark"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:layout_height="56dp">
 
         <ImageButton
-            android:id="@+id/receive_location"
+            android:id="@+id/receive_qrcode"
             android:src="@drawable/ic_edit_black_24dp"
-            android:tint="@color/white"
-            android:paddingRight="8dp"
-            android:background="@color/colorPrimaryDark"
+            android:layout_weight="1"
+            android:padding="56dp"
+            android:elevation="8dp"
+            android:visibility="gone"
+            android:tint="@color/colorPrimaryDark"
+            android:background="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp" />
+
+        <Button
+            android:id="@+id/select_contact_receive"
+            android:padding="18dp"
+            android:layout_weight="1"
+            android:textColor="#777"
+            android:onClick="getContact"
+            android:background="@color/white"
+            android:text="Request from a contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:elevation="4dp"
+            android:padding="8dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp">
+
+            <ImageButton
+                android:id="@+id/receive_location"
+                android:src="@drawable/ic_playlist_add_check_black_24dp"
+                android:tint="@color/colorPrimaryDark"
+                android:padding="0dp"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
             <TextView
-                android:text="Set the receiving amount"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:onClick="goToSetAmount"
-                android:textColor="@color/white"
+                android:text="Requests"
+                android:textSize="11sp"
+                android:onClick="gotToRequests"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -49,77 +73,30 @@
 
     </LinearLayout>
 
-
     <LinearLayout
+        android:id="@+id/receive_edit"
+        android:padding="8dp"
+        android:elevation="8dp"
+        android:visibility="gone"
+        android:layout_margin="16dp"
+        android:background="@color/white"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
         <TextView
-            android:text="WalletID"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginTop="8sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/account_number"
-            android:text="0747513324"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:layout_marginTop="4sp"
-            android:layout_marginBottom="4sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    <ImageView
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/qr_receive"
-        android:src="@mipmap/ic_launcher"
-        android:foregroundGravity="center"
-        android:layout_marginBottom="8dp"
-        android:layout_width="200dp"
-        android:layout_height="200dp" />
-
-        <TextView
-            android:id="@+id/receive_value"
-            android:text=""
+            android:text="Enter Value"
+            android:padding="8dp"
             android:layout_gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textSize="28sp"
             android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="+ Add A Contact"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/receive_edit"
-                android:padding="8dp"
-                android:elevation="8dp"
-                android:visibility="gone"
-                android:layout_margin="16dp"
-                android:background="@color/white"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="Enter Value"
-                    android:padding="8dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
 
 
         <LinearLayout
@@ -141,7 +118,6 @@
                 android:paddingBottom="10sp"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:layout_gravity="top"
                 android:textColor="@color/colorPrimaryDark"
                 android:background="@color/white"
                 android:layout_width="wrap_content"
@@ -150,7 +126,7 @@
             <EditText
                 android:id="@+id/receive_amount"
                 android:inputType="numberDecimal"
-                android:textSize="36sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_weight="6"
                 android:layout_gravity="center_vertical"
@@ -172,7 +148,7 @@
                 android:layout_weight="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            </LinearLayout>
+        </LinearLayout>
 
 
         <Button
@@ -188,10 +164,16 @@
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        </FrameLayout>
-
     </LinearLayout>
+
+    <ListView
+        android:layout_margin="8dp"
+        android:dividerHeight="8dp"
+        android:divider="#f3f3f3"
+        android:scrollbars="none"
+        android:id="@+id/transactions_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+ />
 
 </LinearLayout>
