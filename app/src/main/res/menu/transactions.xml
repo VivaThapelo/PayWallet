@@ -27,6 +27,5 @@
         android:id="@+id/add_account"
         android:orderInCategory="100"
         android:title="send a Friend"
-        android:visible="false"
         app:showAsAction="always|withText" /> -->
 </menu>

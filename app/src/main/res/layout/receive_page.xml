@@ -39,7 +39,6 @@
             <TextView
                 android:text="Set the receiving amount"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 android:onClick="goToSetAmount"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
