@@ -29,6 +29,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -402,8 +404,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            Boolean res = new BankAi().bankLogin(getApplicationContext(),mLoginIdentification,mPassword);
-            if (res) {
+            String res = new BankAi().bankLogin(getApplicationContext(),mLoginIdentification,mPassword);
+            if (res!=null) {
                 Intent intent = new Intent(getApplicationContext(), PinActivity.class);
                 intent.putExtra("from", "login");
                 intent.putExtra("number", mLoginIdentification);

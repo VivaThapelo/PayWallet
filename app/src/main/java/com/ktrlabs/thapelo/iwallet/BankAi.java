@@ -24,6 +24,7 @@ import okhttp3.RequestBody;
 public class BankAi {
 
     Context context;
+    private String base_url = "https://demo.bvnk.co";
 
     public BankAi() {
         super();
@@ -32,10 +33,11 @@ public class BankAi {
     public boolean bankRegistration(Context activity,String[] info) {
         try {
             Log.d("BankAi line 40","password="+ info[5]);
-            String[] details = createAccount(info);
+            String[] details = createUser(info);
             storeKey(activity,"info",info.toString());
             Log.d("BankAi line 42","password="+ details[1]);
-            bankLogin(activity,details[0],details[1]);
+            String auth = bankLogin(activity,details[0],details[1]);
+            createAccount(auth);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,26 +46,64 @@ public class BankAi {
         return false;
     }
 
-    public boolean bankLogin(Context context, String idNumber,String password) {
+    public String bankLogin(Context context, String idNumber,String password) {
+        String auth=null;
         try {
             String account = getAuthRequest(idNumber,password)[0];
             Log.d("details",account + " " + password);
-            String auth = getLoginRequest(account,password);
-            setPushToken(context,auth);
+            auth = getLoginRequest(account,password);
+            if (context!=null && auth!=null) {
+                if (setPushToken(context, auth)==false) {
+                    Toast.makeText(context, "setPushTokenFailed !! Your app will fail to get notifications", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(context, "FCM Token is null!! Your app will fail to get notifications", Toast.LENGTH_SHORT).show();
+            }
+            Log.d("b4 getAndStore context:"+context,"Auth"+auth);
             getAndStoreAccountDetails(context,auth);
             getAndStoreAccountDetails2(context,auth);
             this.storeKey(context,"idNumber",idNumber);
             this.storeKey(context,"password",password);
             this.storeKey(context,"account",account);
             this.storeKey(context,"x-auth",auth);
-            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return false;
+        return auth;
     }
 
-    public String[] createAccount(String[]... data) throws IOException {
+    private boolean createAccount(String xauth) throws IOException {
+        okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
+        okhttp3.RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("AccountType","cheque")
+                .build();
+
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(base_url+"/account")
+                //.method("POST", okhttp3.RequestBody.create(null, new byte[0]))
+                .addHeader("x-auth-token",xauth)
+                .addHeader("cache-control","no-cache")
+                .addHeader("content-type","multipart/form-data; boundary=---011000010111000001101001")
+                .post(requestBody)
+                .build();
+
+        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+
+        String response = httpResponse.body().string();
+        Log.d(request.toString(),response);
+
+        try {
+            String jsonObject = new JSONObject(response).getString("error");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+    public String[] createUser(String[]... data) throws IOException {
         Log.v("stuff", data.toString());
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
         httpClient.retryOnConnectionFailure();
@@ -76,12 +116,13 @@ public class BankAi {
                 .addFormDataPart("AccountHolderIdentificationNumber",data[0][3])
                 .addFormDataPart("AccountHolderContactNumber1",data[0][4])
                 .addFormDataPart("AccountHolderAddressLine1","Gauteng")
+                .addFormDataPart("AccountHolderPostalCode","Gauteng")
                 .addFormDataPart("AccountType","credit")
-                .addFormDataPart("Password",data[0][5])
+                .addFormDataPart("AccountHolderPassword",data[0][5])
                 .build();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("https://creditable.bankai.co/account")
+                .url(base_url+"/account/user")
                 //.method("POST", okhttp3.RequestBody.create(null, new byte[0]))
                 .addHeader("cache-control","no-cache")
                 .addHeader("content-type","multipart/form-data; boundary=---011000010111000001101001")
@@ -111,7 +152,7 @@ public class BankAi {
                 .build();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("https://creditable.bankai.co/account/" + ID)
+                .url(base_url+ "/account/" + ID)
                 //.method("POST", okhttp3.RequestBody.create(null, new byte[0]))
                 .addHeader("cache-control","no-cache")
                 .addHeader("x-auth-token",auth)
@@ -138,7 +179,7 @@ public class BankAi {
                 .build();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("https://creditable.bankai.co/auth/account")
+                .url(base_url+"/auth/account")
                 //.method("POST", okhttp3.RequestBody.create(null, new byte[0]))
                 .addHeader("cache-control","no-cache")
                 .addHeader("content-type","multipart/form-data; boundary=---011000010111000001101001")
@@ -161,7 +202,7 @@ public class BankAi {
         return res;
     }
 
-    public void setPushToken(Context cont,String auth) throws IOException {
+    public boolean setPushToken(Context cont,String auth) throws IOException {
 
         String android_id = FirebaseInstanceId.getInstance().getToken();
         Log.d("FCM", "Refreshed token: " + android_id);
@@ -175,7 +216,7 @@ public class BankAi {
                 .build();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("https://creditable.bankai.co/accountPushToken")
+                .url(base_url+"/accountPushToken")
                 //.method("POST", okhttp3.RequestBody.create(null, new byte[0]))
                 .addHeader("x-auth-token",auth)
                 .addHeader("cache-control","no-cache")
@@ -194,7 +235,9 @@ public class BankAi {
             jString = jsonObject.get("response").toString();
         } catch (JSONException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public String getLoginRequest(String authresponse,String Password) throws IOException {
@@ -207,7 +250,7 @@ public class BankAi {
                 .build();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("https://creditable.bankai.co/auth/login")
+                .url(base_url+"/auth/login")
                 //.method("POST", okhttp3.RequestBody.create(null, new byte[0]))
                 .addHeader("cache-control","no-cache")
                 .post(requestBody)
@@ -240,7 +283,7 @@ public class BankAi {
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("https://creditable.bankai.co/account")
+                .url(base_url+"/account")
                 .addHeader("cache-control","no-cache")
                 .addHeader("x-auth-token",token)
                 .get()
@@ -251,26 +294,35 @@ public class BankAi {
 
         String response = httpResponse.body().string();
         Log.d(request.toString(),response);
+        if (response==null) {
+            return false;
+        }
 
         String AccountNumber,AccountHolderName,AvailableBalance = null;
         try {
             JSONObject jsonObject = new JSONObject(response);
-            if (jsonObject.getJSONArray("response")==null) {
+
+            if (jsonObject.get("response")=="null") {
+                Toast.makeText(context, "Oops!! Couldn't get account details.", Toast.LENGTH_SHORT).show();
                 return false;
             }
-            JSONArray jsonArray = jsonObject.getJSONArray("response");
-            JSONObject jsonObjects = new JSONObject(jsonArray.get(0).toString());
 
-            AvailableBalance = jsonObjects.getString("AvailableBalance");
-            storeKey(context,"AvailableBalance", AvailableBalance);
+                JSONArray jsonArray = jsonObject.getJSONArray("response");
+                JSONObject jsonObjects = new JSONObject(jsonArray.get(0).toString());
 
-            AccountHolderName = jsonObjects.getString("AccountHolderName");
-            storeKey(context,"AccountHolderName", AccountHolderName);
+                AvailableBalance = jsonObjects.getString("AvailableBalance");
+                storeKey(context,"AvailableBalance", AvailableBalance);
 
-            AccountNumber = jsonObjects.getString("AccountNumber");
-            storeKey(context,"AccountNumber", AccountNumber);
-        } catch (JSONException e) {
-            e.printStackTrace();
+                AccountHolderName = jsonObjects.getString("AccountHolderName");
+                storeKey(context,"AccountHolderName", AccountHolderName);
+
+                AccountNumber = jsonObjects.getString("AccountNumber");
+                storeKey(context,"AccountNumber", AccountNumber);
+
+
+        } catch (Exception e) {
+            //e.printStackTrace();
+            return false;
         }
 
         return true;
@@ -281,7 +333,7 @@ public class BankAi {
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("https://creditable.bankai.co/accountHolder")
+                .url(base_url+"/accountHolder")
                 .addHeader("cache-control","no-cache")
                 .addHeader("x-auth-token",token)
                 .get()
@@ -315,7 +367,7 @@ public class BankAi {
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("https://creditable.bankai.co/accountByNumber/" + accountNumber)
+                .url(base_url+"/accountByNumber/" + accountNumber)
                 .addHeader("cache-control","no-cache")
                 .addHeader("x-auth-token",xauth)
                 .get()
@@ -401,7 +453,7 @@ public class BankAi {
                 .addFormDataPart("Desc",type)
                 .build();
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("https://creditable.bankai.co/transaction/credit")
+                .url(base_url+"/transaction/credit")
                 .addHeader("cache-control","no-cache")
                 .addHeader("content-type","multipart/form-data; boundary=---011000010111000001101001")
                 .addHeader("x-auth-token",auth)
@@ -420,7 +472,7 @@ public class BankAi {
         httpClient.retryOnConnectionFailure();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url("https://creditable.bankai.co/transaction/list/100/0")
+                .url(base_url+"/transaction/list/100/0")
                 .addHeader("cache-control","no-cache")
                 .addHeader("content-type","multipart/form-data; boundary=---011000010111000001101001")
                 .addHeader("x-auth-accountnumber",accnum)

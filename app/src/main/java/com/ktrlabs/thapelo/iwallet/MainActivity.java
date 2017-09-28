@@ -542,8 +542,11 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            ((TextView) findViewById(R.id.balance)).setText(format.format(Float.parseFloat(new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance"))) );
-
+            if ( new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance")!="failed") {
+                ((TextView) findViewById(R.id.balance)).setText(format.format(Float.parseFloat(new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance"))));
+            }else {
+                ((TextView) findViewById(R.id.balance)).setText("Failed");
+            }
         }
     }
 
@@ -801,8 +804,11 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             transactionsAdapter.notifyDataSetChanged();
-            balance.setTitle(format.format(Float.parseFloat(new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance"))) );
-            
+            if (new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance")!="failed") {
+                balance.setTitle(format.format(Float.parseFloat(  new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance")  ) ));
+            }else {
+                balance.setTitle("Failed");
+            }
         }
     }
 

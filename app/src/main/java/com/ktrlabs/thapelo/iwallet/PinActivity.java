@@ -1,6 +1,7 @@
 package com.ktrlabs.thapelo.iwallet;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,17 +77,23 @@ public class PinActivity extends AppCompatActivity {
                 Log.d("PinPage","Clicked button:"+ key);
                 pin_first.setText(key);
                 pin_second.requestFocus();
-                pin_second.setShowSoftInputOnFocus(false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    pin_second.setShowSoftInputOnFocus(false);
+                }
             } else
             if (pin_second.getText().toString().isEmpty() || pin_second.getText().toString()=="") {
                 pin_second.setText(key);
                 pin_third.requestFocus();
-                pin_third.setShowSoftInputOnFocus(false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    pin_third.setShowSoftInputOnFocus(false);
+                }
             } else
             if (pin_third.getText().toString().isEmpty() || pin_third.getText().toString()=="") {
                 pin_third.setText(key);
                 pin_forth.requestFocus();
-                pin_forth.setShowSoftInputOnFocus(false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    pin_forth.setShowSoftInputOnFocus(false);
+                }
             } else
             if (pin_forth.getText().toString().isEmpty() || pin_forth.getText().toString()==""){
                 pin_forth.setText(key);

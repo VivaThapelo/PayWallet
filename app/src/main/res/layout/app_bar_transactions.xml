@@ -32,6 +32,8 @@
     <include android:id="@+id/shopping_transactions" layout="@layout/shopping_page" android:visibility="gone" />
 
     <FrameLayout
+        android:translationZ="10dp"
+        android:elevation="10dp"
         android:layout_gravity="bottom|center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
