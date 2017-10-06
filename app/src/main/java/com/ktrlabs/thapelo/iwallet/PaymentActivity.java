@@ -212,7 +212,7 @@ public class PaymentActivity extends AppCompatActivity {
                 tvi.setTextSize(40);
                 ((LinearLayout) findViewById(R.id.payment)).setVisibility(View.INVISIBLE);
                 Intent intent = new Intent();
-                intent.setClass(getApplicationContext(),MainActivity.class);
+                intent.setClass(getApplicationContext(),SuccessActivity.class);
                 startActivity(intent);
                 //new MainActivity.BankLoginAsync().execute("");
             } else {

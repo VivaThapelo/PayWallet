@@ -18,10 +18,10 @@
     <com.mikhaellopez.circularimageview.CircularImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/profile_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         app:civ_shadow_radius="1"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:paddingTop="0dp"
         android:layout_marginBottom="0dp"
@@ -57,7 +57,7 @@
 
         <TextView
             android:id="@+id/date"
-            android:textSize="11sp"
+            android:textSize="10sp"
             android:textColor="@color/near_white"
             android:text="15:50 - 12 may 2017"
             android:layout_width="wrap_content"

@@ -108,6 +108,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ktrlabs.thapelo.iwallet.MainActivity" />
         </activity>
+        <activity
+            android:name=".SuccessActivity"
+            android:label="@string/title_activity_success"
+            android:parentActivityName=".PaymentActivity"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

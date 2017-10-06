@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity
     MenuItem scanMenuItem = null;
     DecoratedBarcodeView cameraPreview;
     private CaptureManager capture;
-    public final static int QRcodeWidth = 200;
+    public final static int QRcodeWidth = 250;
     ImageView qrView = null;
     MenuItem balance = null;
     TransactionsAdapter transactionsAdapter = null;
@@ -308,10 +308,15 @@ public class MainActivity extends AppCompatActivity
 
         new BankAi().context = getApplicationContext();
 
+
+
         dfs.setCurrencySymbol("R");
         //dfs.setGroupingSeparator('.');
         dfs.setMonetaryDecimalSeparator('.');
         ((DecimalFormat) format).setDecimalFormatSymbols(dfs);
+
+        ((TextView) findViewById(R.id.balamt)).setText(format.format(Float.parseFloat(new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance"))));
+
 
         viewb = (View) findViewById(R.id.bills_transactions);
         views = (View) findViewById(R.id.send_transactions);
@@ -443,6 +448,7 @@ public class MainActivity extends AppCompatActivity
 
         TextView accountNumbers = (TextView) headerView.findViewById(R.id.accountNumber);
         accountNumbers.setText((new BankAi().getStokedKey(getApplicationContext(), "AccountNumber")));
+        ((TextView) findViewById(R.id.balacc)).setText((new BankAi().getStokedKey(getApplicationContext(), "AccountNumber")));
     }
 
     public class SMS extends AsyncTask<String[], String, String> {
@@ -544,8 +550,11 @@ public class MainActivity extends AppCompatActivity
             super.onPostExecute(s);
             if ( new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance")!="failed") {
                 ((TextView) findViewById(R.id.balance)).setText(format.format(Float.parseFloat(new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance"))));
+                ((TextView) findViewById(R.id.balamt)).setText(format.format(Float.parseFloat(new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance"))));
+
             }else {
                 ((TextView) findViewById(R.id.balance)).setText("Failed");
+                ((TextView) findViewById(R.id.balamt)).setText("Failed");
             }
         }
     }
@@ -820,7 +829,7 @@ public class MainActivity extends AppCompatActivity
     private String getDateTime(long timeStampStr) {
 
         try {
-            String date = new SimpleDateFormat("hh:mm a - dd MMMM yyyy").format(new Date(timeStampStr * 1000));
+            String date = new SimpleDateFormat("hh:mm a - dd MMM yyyy").format(new Date(timeStampStr * 1000));
             return date;
         } catch (Exception ex) {
             ex.printStackTrace();

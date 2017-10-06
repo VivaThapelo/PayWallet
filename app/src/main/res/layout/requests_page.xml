@@ -14,62 +14,20 @@
     <LinearLayout
         android:orientation="horizontal"
         android:elevation="2dp"
-        android:background="@color/white"
+        android:background="#e9e9e9"
         android:layout_width="match_parent"
         android:layout_height="56dp">
 
-        <ImageButton
-            android:id="@+id/receive_qrcode"
-            android:src="@drawable/ic_edit_black_24dp"
-            android:layout_weight="1"
-            android:padding="56dp"
-            android:elevation="8dp"
-            android:visibility="gone"
-            android:tint="@color/colorPrimaryDark"
-            android:background="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp" />
 
         <Button
             android:id="@+id/select_contact_receive"
             android:padding="18dp"
-            android:layout_weight="1"
             android:textColor="#777"
             android:onClick="getContact"
-            android:background="@color/white"
+            android:background="#e9e9e9"
             android:text="Request from a contact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:elevation="4dp"
-            android:padding="8dp"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="56dp">
-
-            <ImageButton
-                android:id="@+id/receive_location"
-                android:src="@drawable/ic_playlist_add_check_black_24dp"
-                android:tint="@color/colorPrimaryDark"
-                android:padding="0dp"
-                android:visibility="gone"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="Requests"
-                android:textSize="11sp"
-                android:onClick="gotToRequests"
-                android:textColor="@color/colorPrimaryDark"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
@@ -165,6 +123,136 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="#e9e9e9"
+        android:elevation="2dp"
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:padding="8dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:divider="@color/white"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                app:civ_shadow_radius="1"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="0dp"
+                android:paddingTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:paddingBottom="0dp"
+                android:src="@drawable/propic"
+                app:civ_border_width="7dp"
+                app:civ_border_color="@color/white"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="8"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/flag"
+                    android:text="New Request"
+                    android:textSize="12sp"
+                    android:padding="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="@color/white"
+                    android:background="#04d635"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginTop="-4dp"
+                    android:id="@+id/names"
+                    android:textColor="#666666"
+                    android:text="Lebohang Radebe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:textSize="10sp"
+                    android:textColor="@color/near_white"
+                    android:text="15:50 - 12 may 2017"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_weight="0"
+                android:paddingRight="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/amount"
+                    android:textSize="18sp"
+                    android:text="R400"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/fee"
+                    android:layout_marginTop="-4dp"
+                    android:layout_gravity="right"
+                    android:textSize="11sp"
+                    android:textColor="#d1070a"
+                    android:text="R2.00 fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="1dp"
+        android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/decline_button"
+                android:text="Decline"
+                android:textColor="#999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/accept_button"
+                android:text="Accept"
+                android:textColor="@color/colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <ListView
         android:layout_margin="8dp"
