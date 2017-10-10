@@ -25,4 +25,6 @@
     <string name="title_activity_deposit">Deposit</string>
     <string name="title_activity_account">Account</string>
     <string name="title_activity_success">Success</string>
+    <string name="title_activity_withdraw">WithdrawActivity</string>
+    <string name="title_activity_tranfer">TranferActivity</string>
 </resources>

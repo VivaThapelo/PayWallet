@@ -11,10 +11,24 @@
     tools:context="com.ktrlabs.thapelo.iwallet.MainActivity"
     tools:showIn="@layout/app_bar_transactions">
 
+    <ScrollView
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        android:elevation="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="false">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
     <LinearLayout
         android:orientation="vertical"
         android:elevation="2dp"
-        android:padding="18dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         android:background="#e9e9e9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -53,65 +67,281 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <LinearLayout
+            android:paddingTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="4dp"
+                android:elevation="1dp"
+                android:onClick="getContact"
+                android:layout_margin="4dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_arrow_forward_black_24dp"
+                    android:tint="@color/colorPrimary"
+                    android:paddingRight="4dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
+                <TextView
+                    android:text="Send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="4dp"
+                android:onClick="goToTransfer"
+                android:elevation="1dp"
+                android:layout_margin="4dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_shuffle_black_24dp"
+                    android:tint="@color/colorPrimary"
+                    android:paddingRight="4dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
+                <TextView
+                    android:text="Transfer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="4dp"
+                android:elevation="1dp"
+                android:onClick="goToWithdraw"
+                android:background="@color/white"
+                android:layout_margin="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_arrow_downward_black_24dp"
+                    android:paddingRight="4dp"
+                    android:tint="@color/colorPrimary"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
+                <TextView
+                    android:text="Withdraw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
+            <LinearLayout
+                android:paddingTop="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_weight="10"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:elevation="1dp"
+                    android:onClick="goToQrPay"
+                    android:layout_margin="4dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/ic_aspect_ratio_black_24dp"
+                        android:tint="@color/white"
+                        android:paddingRight="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="QuickPay"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_weight="10"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:onClick="goToGeoPay"
+                    android:elevation="1dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_margin="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/ic_place_black_24dp"
+                        android:paddingRight="8dp"
+                        android:tint="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:text="GeoPay"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
     <LinearLayout
-        android:padding="4dp"
+        android:orientation="vertical"
+        android:elevation="1dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="4dp"
+        android:padding="8dp"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:textStyle="bold"
+            android:text="Other Accounts"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_weight="10"
-            android:gravity="center"
-            android:padding="8dp"
-            android:elevation="2dp"
-            android:layout_margin="4dp"
-            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:src="@drawable/ic_trending_up_black_24dp"
-                android:tint="@color/colorPrimaryDark"
-                android:paddingRight="8dp"
+            <TextView
+                android:textSize="18dp"
+                android:text="Savings"
+                android:textColor="@color/colorPrimary"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="Deposit"
-                android:textStyle="bold"
+                android:textSize="18dp"
+                android:text="R1500.00"
+                android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-
         </LinearLayout>
+
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_weight="10"
-            android:gravity="center"
-            android:padding="8dp"
-            android:elevation="2dp"
-            android:background="@color/white"
-            android:layout_margin="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:src="@drawable/ic_trending_down_black_24dp"
-                android:paddingRight="8dp"
-                android:tint="@color/colorPrimaryDark"
+            <TextView
+                android:textSize="11dp"
+                android:text="5275 9876 4532 1234"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:text="Withdraw"
-                android:textStyle="bold"
+                android:textSize="11dp"
+                android:text="Available Balance"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
+        </LinearLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textSize="18dp"
+                    android:text="Rewards"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:textSize="18dp"
+                    android:text="R50.00"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textSize="11dp"
+                    android:text="5275 9876 4532 1234"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:textSize="11dp"
+                    android:text="Available Balance"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
@@ -122,7 +352,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:padding="4dp"
-        android:elevation="2dp"
+        android:elevation="1dp"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -130,12 +360,16 @@
 
 
         <TextView
-            android:text="Menu"
+            android:text="Services"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
             android:layout_marginLeft="8dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -144,33 +378,8 @@
                 android:layout_weight="10"
                 android:gravity="center"
                 android:padding="0dp"
-                android:onClick="getContact"
-                android:layout_margin="4dp"
                 android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:src="@drawable/ic_send_black_24dp"
-                    android:tint="@color/colorPrimaryDark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:text="Send"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_weight="10"
-                android:gravity="center"
-                android:padding="0dp"
-                android:background="@color/white"
-                android:layout_margin="4dp"
+                android:layout_margin="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -182,6 +391,7 @@
 
                 <TextView
                     android:text="Prepaid"
+                    android:textSize="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -192,7 +402,32 @@
                 android:layout_weight="10"
                 android:gravity="center"
                 android:padding="0dp"
-                android:layout_margin="4dp"
+                android:layout_margin="2dp"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_lightbulb_outline_black_24dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Electricity"
+                    android:textSize="12dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="0dp"
+                android:layout_margin="2dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -204,19 +439,19 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="Bills"
+                    android:text="Municipality"
+                    android:textSize="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
 
             </LinearLayout>
-
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_weight="10"
                 android:gravity="center"
                 android:padding="0dp"
-                android:layout_margin="4dp"
+                android:layout_margin="2dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -228,7 +463,8 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="Accounts"
+                    android:text="Stores"
+                    android:textSize="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -238,6 +474,8 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -245,54 +483,33 @@
                 android:orientation="vertical"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:padding="8dp"
-                android:layout_margin="4dp"
+                android:padding="0dp"
+                android:layout_margin="2dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:src="@drawable/ic_vpn_key_black_24dp"
+                    android:src="@drawable/ic_security_black_24dp"
                     android:tint="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="Save"
+                    android:text="Insure"
+                    android:textSize="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:padding="8dp"
-                android:background="@color/white"
-                android:layout_margin="4dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:src="@drawable/ic_account_balance_black_24dp"
-                    android:tint="@color/colorPrimaryDark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:text="Borrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_weight="10"
-                android:gravity="center"
-                android:padding="8dp"
-                android:layout_margin="4dp"
+                android:padding="0dp"
+                android:layout_margin="2dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -305,6 +522,7 @@
 
                 <TextView
                     android:text="Invest"
+                    android:textSize="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -315,20 +533,47 @@
                 android:orientation="vertical"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:padding="8dp"
-                android:layout_margin="4dp"
+                android:padding="0dp"
+                android:background="@color/white"
+                android:layout_margin="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:src="@drawable/ic_account_balance_black_24dp"
+                    android:tint="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="Borrow"
+                    android:textSize="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:padding="0dp"
+                android:layout_margin="2dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:src="@drawable/ic_poll_black_24dp"
+                    android:src="@drawable/ic_assignment_black_24dp"
                     android:tint="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:text="Budget"
+                    android:textSize="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -337,13 +582,9 @@
 
         </LinearLayout>
 
-        <TextView
-            android:text="Products"
-            android:visibility="gone"
-            android:layout_marginLeft="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
         <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -351,20 +592,21 @@
                 android:orientation="vertical"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:padding="8dp"
-                android:layout_margin="4dp"
+                android:padding="0dp"
+                android:layout_margin="2dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:src="@drawable/ic_local_taxi_black_24dp"
+                    android:src="@drawable/ic_live_tv_black_24dp"
                     android:tint="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="Uber"
+                    android:text="TV"
+                    android:textSize="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -375,8 +617,8 @@
                 android:orientation="vertical"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:padding="8dp"
-                android:layout_margin="4dp"
+                android:padding="0dp"
+                android:layout_margin="2dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -388,7 +630,8 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="Market"
+                    android:text="Marketplace"
+                    android:textSize="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -398,9 +641,9 @@
                 android:orientation="vertical"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:padding="8dp"
+                android:padding="0dp"
                 android:background="@color/white"
-                android:layout_margin="4dp"
+                android:layout_margin="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -411,7 +654,8 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:text="Shop"
+                    android:text="Shopping"
+                    android:textSize="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -423,8 +667,8 @@
                 android:orientation="vertical"
                 android:layout_weight="10"
                 android:gravity="center"
-                android:padding="8dp"
-                android:layout_margin="4dp"
+                android:padding="00dp"
+                android:layout_margin="2dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -437,6 +681,7 @@
 
                 <TextView
                     android:text="More"
+                    android:textSize="12dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -448,17 +693,21 @@
         </LinearLayout>
 
 
+
+
+
+        ///this is hidden
     </LinearLayout>
 
-    <ScrollView
-        android:layout_margin="8dp"
-        android:padding="4dp"
-        android:elevation="2dp"
-        android:visibility="gone"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:isScrollContainer="false">
+            <LinearLayout
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:elevation="1dp"
+                android:visibility="gone"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:isScrollContainer="false">
         //Grid numbers
 
         <LinearLayout
@@ -875,6 +1124,8 @@
 
             </LinearLayout>
 
+        </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

@@ -49,6 +49,7 @@ import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,6 +75,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
@@ -84,6 +86,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.realm.OrderedRealmCollection;
+import io.realm.Realm;
+import io.realm.RealmBaseAdapter;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
+import io.realm.Sort;
 import mehdi.sakout.dynamicbox.DynamicBox;
 
 public class MainActivity extends AppCompatActivity
@@ -270,6 +278,14 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_transactions);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Realm.init(this);
+        //Realm realm = Realm.getDefaultInstance();
+        RealmConfiguration config = new RealmConfiguration
+                .Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+
+        Realm realm = Realm.getInstance(config);
 
         PermissionsManager.getInstance().requestAllManifestPermissionsIfNecessary(this,
                 new PermissionsResultAction() {
@@ -344,7 +360,9 @@ public class MainActivity extends AppCompatActivity
         new getTransactionList().execute();
         new refreshAccountDetails().execute();
 
-        transactionsAdapter = new TransactionsAdapter(getApplicationContext(), R.layout.transactions_listview_item, stringArrayList);
+        RealmResults<Transaction> realmResults= realm.where(Transaction.class).findAllAsync();
+
+        transactionsAdapter = new TransactionsAdapter(realmResults);
 
         transactionsList = (ListView) findViewById(R.id.transactions_listview);
         DynamicBox transactionSpinner = new DynamicBox(this,transactionsList);
@@ -391,8 +409,8 @@ public class MainActivity extends AppCompatActivity
         cameraPreview.decodeSingle(callback);
 
 
-        TextView tView = (TextView) findViewById(R.id.account_number);
-        tView.setText((new BankAi().getStokedKey(getApplicationContext(), "AccountNumber")));
+        //TextView tView = (TextView) findViewById(R.id.account_number);
+        //tView.setText((new BankAi().getStokedKey(getApplicationContext(), "AccountNumber")));
 
 
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -560,10 +578,11 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public class getTransactionList extends AsyncTask<String, String, ArrayList> {
+    public class getTransactionList extends AsyncTask<String, String, RealmResults> {
         @Override
-        protected ArrayList<JSONObject> doInBackground(String... params) {
+        protected RealmResults doInBackground(String... params) {
             JSONArray jArray = null;
+            RealmResults<Transaction> realmResults = null;
             try {
                 jArray = new BankAi().TransactionList(new BankAi().getStokedKey(getApplicationContext(), "x-auth"), new BankAi().getStokedKey(getApplicationContext(), "AccountNumber"));
             } catch (IOException e) {
@@ -571,12 +590,13 @@ public class MainActivity extends AppCompatActivity
             }
             ArrayList<JSONObject> items = new ArrayList<JSONObject>();
             if (jArray == null) {
-                return items;
+                return null;
             } else {
                 for (int i = 0; i < jArray.length(); i++) {
                     JSONObject json_data = null;
                     try {
                         json_data = jArray.getJSONObject(i);
+                        String id = json_data.getString("ID");
                         JSONObject receiver = json_data.getJSONObject("Receiver");
                         JSONObject sender = json_data.getJSONObject("Sender");
                         String sndName = sender.getString("Name");
@@ -594,11 +614,26 @@ public class MainActivity extends AppCompatActivity
                         }
                         //int id=json_data.getInt("id");
                         JSONObject jObj = new JSONObject();
+                        jObj.put("id",id);
                         jObj.put("name", name);
                         jObj.put("date", date);
                         jObj.put("amount", amount);
                         jObj.put("fee", fee);
                         jObj.put("type",desc);
+                        RealmConfiguration config = new RealmConfiguration
+                                .Builder()
+                                .deleteRealmIfMigrationNeeded()
+                                .build();
+                        Realm realm = Realm.getInstance(config);
+                        try {
+                            // Work with Realm
+                            realm.beginTransaction();
+                            realm.createOrUpdateObjectFromJson(Transaction.class,jObj);
+                            realm.commitTransaction();
+
+                        } finally {
+                            realm.close();
+                        }
                         items.add(jObj);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -606,7 +641,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
 
-            return items;
+            return realmResults;
         }
 
         @Override
@@ -616,21 +651,35 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        protected void onPostExecute(ArrayList strings) {
+        protected void onPostExecute(RealmResults strings) {
             super.onPostExecute(strings);
             //stringArrayList.addAll(strings);
-            transactionsAdapter.clear();
-            transactionsAdapter.addAll(strings);
-            if (strings.isEmpty()) {
-                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_transactions);
-                TextView textView = new TextView(getApplicationContext());
-                textView.setTextColor(Color.GRAY);
-                textView.setTextSize(14);
-                textView.setPadding(18, 18, 18, 18);
-                textView.setText("No Transactions ( or Network Connection Error )");
-                linearLayout.addView(textView);
-                
+            RealmConfiguration config = new RealmConfiguration
+                    .Builder()
+                    .deleteRealmIfMigrationNeeded()
+                    .build();
+            Realm realm = Realm.getInstance(config);
+            try {
+                // Work with Realm
+                realm.beginTransaction();
+                RealmResults realmResults = realm.where(Transaction.class).findAll();
+                if (realmResults.isEmpty()) {
+                    LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_transactions);
+                    TextView textView = new TextView(getApplicationContext());
+                    textView.setTextColor(Color.GRAY);
+                    textView.setTextSize(14);
+                    textView.setPadding(18, 18, 18, 18);
+                    textView.setText("No Transactions ( or Network Connection Error )");
+                    linearLayout.addView(textView);
+
+                }
+                realm.commitTransaction();
+
+            } finally {
+                realm.close();
             }
+          // transactionsAdapter.updateData(strings);
+
         }
     }
 
@@ -708,9 +757,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public class TransactionsAdapter extends ArrayAdapter<JSONObject> {
-        public TransactionsAdapter(@NonNull Context context, @LayoutRes int resource, ArrayList objects) {
-            super(context, resource, objects);
+    public class TransactionsAdapter extends RealmBaseAdapter<Transaction> implements ListAdapter {
+        public TransactionsAdapter(@Nullable OrderedRealmCollection<Transaction> data) {
+            super(data);
         }
 
         public class ViewHolder {
@@ -727,7 +776,7 @@ public class MainActivity extends AppCompatActivity
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             //return super.getView(position, convertView, parent);
             Log.d("from atrray list", getItem(position).toString());
-            JSONObject jsonObject = getItem(position);
+            Transaction jsonObject = getItem(position);
             ViewHolder holder;
             if (convertView == null) {
                 LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -751,30 +800,30 @@ public class MainActivity extends AppCompatActivity
                 }
                // convertView.setBackgroundColor(myColorRand(inc));
                 if (holder.name != null) {
-                    if (jsonObject.getString("name").length()==0) {
+                    if (jsonObject.getName().length()==0) {
                         holder.name.setText("Bank");
                     } else {
-                        holder.name.setText(jsonObject.getString("name"));
+                        holder.name.setText(jsonObject.getName());
                     }
                 }
                 if (holder.date != null) {
-                    holder.date.setText(getDateTime(jsonObject.getLong("date")));
+                    holder.date.setText(getDateTime( jsonObject.getDate() ));
                 }
                 if (holder.amount != null) {
-                    if (Double.parseDouble(jsonObject.getString("amount"))<0) {
+                    if (Double.parseDouble(jsonObject.getAmount())<0) {
                         holder.amount.setTextColor(Color.RED);
                     } else {
                         holder.amount.setTextColor(Color.GREEN);
                     }
-                    holder.amount.setText( format.format(Float.parseFloat(jsonObject.getString("amount"))) );
+                    holder.amount.setText( format.format(Float.parseFloat( jsonObject.getAmount() ) ));
                 }
                 if (holder.fee != null) {
-                    holder.fee.setText(format.format(Float.parseFloat(jsonObject.getString("fee"))) + " fee");
+                    holder.fee.setText(format.format(Float.parseFloat( jsonObject.getFee() ) ) + " fee");
                 }
                 if (holder.type != null) {
-                    holder.type.setText(jsonObject.getString("type"));
+                    holder.type.setText(jsonObject.getType() );
                 }
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -1031,6 +1080,18 @@ public class MainActivity extends AppCompatActivity
     public void goToGeoPay(View view)
     {
         Intent intent = new Intent(this, GeoPay.class);
+        startActivity(intent);
+    }
+
+    public void goToWithdraw(View view)
+    {
+        Intent intent = new Intent(this, WithdrawActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToTransfer(View view)
+    {
+        Intent intent = new Intent(this, TransferActivity.class);
         startActivity(intent);
     }
 

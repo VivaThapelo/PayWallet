@@ -112,7 +112,19 @@
             android:name=".SuccessActivity"
             android:label="@string/title_activity_success"
             android:parentActivityName=".PaymentActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".WithdrawActivity"
+            android:label="@string/title_activity_withdraw"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".TransferActivity"
+            android:label="@string/title_activity_tranfer"
+            android:parentActivityName=".PaymentActivity"
             android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ktrlabs.thapelo.iwallet.PaymentActivity" />
         </activity>
     </application>
 

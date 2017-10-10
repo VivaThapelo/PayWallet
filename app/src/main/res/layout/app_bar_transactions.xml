@@ -46,7 +46,7 @@
         android:layout_marginBottom="-2dp"
         app:rippleColor="@color/colorPrimaryDark"
         app:backgroundTint="@color/colorPrimary"
-        app:elevation="@dimen/fab_margin"
+        app:elevation="9dp"
         app:srcCompat="@drawable/ic_action_scan" />
 
         <TextView
