@@ -20,6 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_tranfer" />
+    <include layout="@layout/content_transfer" />
 
 </android.support.design.widget.CoordinatorLayout>

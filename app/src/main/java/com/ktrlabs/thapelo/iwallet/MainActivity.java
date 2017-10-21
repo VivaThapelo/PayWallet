@@ -215,6 +215,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
+
+        //Set Profile
+        TextView profileNames = ((TextView) findViewById(R.id.profile_names));
+        if (profileNames!=null && !new BankAi().getStokedKey(getApplicationContext(),"AccountHolderName").contentEquals("failed")) {
+            ((TextView) findViewById(R.id.profile_names)).setText(new BankAi().getStokedKey(getApplicationContext(),"AccountHolderName"));
+         }
+
         Realm.init(this);
         //Realm realm = Realm.getDefaultInstance();
         RealmConfiguration config = new RealmConfiguration
@@ -738,7 +746,7 @@ public class MainActivity extends AppCompatActivity
                     holder.time.setText(getTime( jsonObject.getDate() ));
                 }
                 if (holder.dayText!=null) {
-                    String formattedDate = new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime());
+                    String formattedDate = new SimpleDateFormat("dd mmmm yyyy").format(Calendar.getInstance().getTime());
                     String yesterdayDate =  Integer.parseInt(formattedDate.substring(0,2))-1 + formattedDate.substring(2);
                     if (jsonObject.getDate()!=null) {
                         if (!daytextSet.contentEquals("") && daytextSet.contentEquals(getDate(jsonObject.getDate()))) {
@@ -847,7 +855,6 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            
         }
 
         @Override
@@ -862,6 +869,16 @@ public class MainActivity extends AppCompatActivity
                 balance.setTitle(format.format(Float.parseFloat(  new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance")  ) ));
             }
         }
+    }
+
+    void startAnim(){
+        avi.show();
+        // or avi.smoothToShow();
+    }
+
+    void stopAnim(){
+        avi.hide();
+        // or avi.smoothToHide();
     }
 
     public void getContact(View view) {

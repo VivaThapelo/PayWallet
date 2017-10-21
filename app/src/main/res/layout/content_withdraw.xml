@@ -8,14 +8,41 @@
     tools:context="com.ktrlabs.thapelo.iwallet.WithdrawActivity"
     tools:showIn="@layout/activity_withdraw">
 
-    <TextView
-        android:text="Choose A Withdrawal Method"
-        android:textColor="#777"
-        android:background="#e9e9e9"
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:elevation="2dp"
-        android:gravity="center"
+        android:padding="8dp"
+        android:background="#e9e9e9"
         android:layout_width="match_parent"
-        android:layout_height="56dp" />
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/profile_names"
+            android:layout_weight="1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:text="Withdraw Cash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_weight="1"
+            android:text="Set Amount"
+            android:padding="4dp"
+            android:textSize="12sp"
+            android:onClick="goToSetAmount"
+            android:textColor="@color/white"
+            android:background="@drawable/corners_accent"
+            android:layout_width="28dp"
+            android:layout_height="28dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:text="It must look like QR Pay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:layout_marginTop="56dp"
