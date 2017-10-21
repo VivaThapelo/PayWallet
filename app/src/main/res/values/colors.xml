@@ -8,4 +8,5 @@
     <color name="black">#000000</color>
     <color name="near_white">#AAAAAA</color>
     <color name="grayy">#b9b9b9</color>
+    <color name="fabColor">#1e81d2</color>
 </resources>

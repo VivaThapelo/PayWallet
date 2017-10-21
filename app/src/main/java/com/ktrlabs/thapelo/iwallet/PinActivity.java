@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,6 +39,86 @@ public class PinActivity extends AppCompatActivity {
 
         hideSoftKeyboard();
 
+        pin_first = (EditText) findViewById(R.id.pin_first);
+        pin_second = (EditText) findViewById(R.id.pin_second);
+        pin_third = (EditText) findViewById(R.id.pin_third);
+        pin_forth = (EditText) findViewById(R.id.pin_forth);
+
+       // pin_first.requestFocus();
+
+      /*  pin_first.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                pin_second.requestFocus();
+            }
+        });
+        pin_second.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                pin_third.requestFocus();
+            }
+        });
+        pin_third.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                pin_forth.requestFocus();
+            }
+        });
+        pin_forth.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (getIntent().getStringExtra("from").equals("login")) {
+                    verifyPin();
+                } else if (getIntent().getStringExtra("from").equals("registration") ) {
+                    setPin();
+                } else if (getIntent().getStringExtra("from").equals("splash")) {
+                    verifyPin();
+                } else  if (getIntent().getStringExtra("from").equals("payment")) {
+                    verifyPin();
+                }
+            }
+        }); */
+
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users");
 
@@ -68,10 +150,7 @@ public class PinActivity extends AppCompatActivity {
     public void pinCode(View view) {
         String key = ((Button) view).getText().toString();
         Integer[] numbers = {0,1,2,3,4,5,6,7,8,9};
-        pin_first = (EditText) findViewById(R.id.pin_first);
-        pin_second = (EditText) findViewById(R.id.pin_second);
-        pin_third = (EditText) findViewById(R.id.pin_third);
-        pin_forth = (EditText) findViewById(R.id.pin_forth);
+
 
             if(pin_first.getText().toString().isEmpty() || pin_first.getText().toString()=="") {
                 Log.d("PinPage","Clicked button:"+ key);
@@ -118,7 +197,7 @@ public class PinActivity extends AppCompatActivity {
         pin_third.getText().clear();
         pin_forth.getText().clear();
         pin_first.requestFocus();
-        pin_first.setShowSoftInputOnFocus(false);
+       // pin_first.setShowSoftInputOnFocus(false);
     }
 
     String pin1,pinCode1,pin2;
@@ -132,7 +211,7 @@ public class PinActivity extends AppCompatActivity {
             pin_third.getText().clear();
             pin_forth.getText().clear();
             pin_first.requestFocus();
-            pin_first.setShowSoftInputOnFocus(false);
+         //   pin_first.setShowSoftInputOnFocus(false);
         }
         if (pinCode1!=null){
             pin2 = pin_first.getText().toString() + pin_second.getText().toString() + pin_third.getText().toString() + pin_forth.getText().toString();
@@ -177,7 +256,7 @@ public class PinActivity extends AppCompatActivity {
             pin_forth.getText().clear();
             Toast.makeText(getApplicationContext(), "Pin Failed, Try Again", Toast.LENGTH_LONG).show();
             pin_first.requestFocus();
-            pin_first.setShowSoftInputOnFocus(false);
+          //  pin_first.setShowSoftInputOnFocus(false);
             return false;
         }
     }

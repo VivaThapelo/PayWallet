@@ -10,12 +10,12 @@
         <item
             android:id="@+id/nav_overseas"
             android:icon="@drawable/ic_public_black_24dp"
-            android:title="Nearby Merchants" />
+            android:title="Approved Merchants" />
 
         <item
             android:id="@+id/nav_voucher"
             android:icon="@drawable/ic_redeem_black_24dp"
-            android:title="Redeem Voucher" />
+            android:title="Transaction Fees" />
 
         <item
             android:id="@+id/nav_chat"

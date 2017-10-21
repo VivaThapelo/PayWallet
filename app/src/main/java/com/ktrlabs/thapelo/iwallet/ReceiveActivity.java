@@ -1,10 +1,7 @@
 package com.ktrlabs.thapelo.iwallet;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,30 +15,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.security.Timestamp;
-import java.sql.Time;
-import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import java.util.Arrays;
-import java.util.Calendar;
 
 import static com.ktrlabs.thapelo.iwallet.QuickReference.bitmapToString;
 
-public class QuickPayActivity extends AppCompatActivity {
-    public final static int QRcodeWidth = 250;
-    private int seconds;
+public class ReceiveActivity extends AppCompatActivity {
     NumberFormat format = NumberFormat.getCurrencyInstance();
     DecimalFormatSymbols dfs = new DecimalFormatSymbols();
     QuickReference quickReference = new QuickReference();
@@ -49,52 +35,16 @@ public class QuickPayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qr_pay);
+        setContentView(R.layout.activity_receive);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        final NumberFormat format = NumberFormat.getCurrencyInstance();
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        QuickReference quickReference = new QuickReference();
+
         quickReference.context = getApplicationContext();
         quickReference.resources = getResources();
-
-        dfs.setCurrencySymbol("R");
-        //dfs.setGroupingSeparator('.');
-        dfs.setMonetaryDecimalSeparator('.');
-        ((DecimalFormat) format).setDecimalFormatSymbols(dfs);
-
-        final TextView rcvAmtView = (TextView) findViewById(R.id.payment_amount);
-        Button rcvAmtBtn = (Button) findViewById(R.id.payment_button);
-        rcvAmtBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (rcvAmtView != null || rcvAmtView.getText() != null) {
-                    String amt = rcvAmtView.getText().toString();
-                    rcvAmtView.clearFocus();
-                    ((TextView) findViewById(R.id.payment_value)).setText(format.format(Float.parseFloat(amt)));
-                    JSONObject data = new JSONObject();
-                    String accountNumber = new BankAi().getStokedKey(getApplicationContext(), "AccountNumber");
-                    String cellphone = new BankAi().getStokedKey(getApplicationContext(), "Cellphone");
-                    JSONObject jObj = new JSONObject();
-                    if (accountNumber != "failed") {
-                        try{
-                            jObj.put("pid","quickpay");
-                            jObj.put("cellPhoneID", new BankAi().getStokedKey(getApplicationContext(), "PhoneNumber"));
-                            jObj.put("accountNumber", accountNumber);
-                            jObj.put("amount", amt);
-                            jObj.put("fee", "");
-                            jObj.put("type","Transfer");
-                            jObj.put("xauth",new BankAi().getStokedKey(getApplicationContext(), "x-auth"));
-                            jObj.put("type", "Payment");
-                            // items.add(jObj);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("data",jObj.toString());
-                        String RecipientDetails = jObj.toString();
-                        new getQrCode(false,"Payment").execute(RecipientDetails);
-                    }
-                }
-                findViewById(R.id.payment_edit).setVisibility(View.GONE);
-            }
-        });
 
         JSONObject data = new JSONObject();
         String accountNumber = new BankAi().getStokedKey(getApplicationContext(), "AccountNumber");
@@ -102,58 +52,88 @@ public class QuickPayActivity extends AppCompatActivity {
         if (accountNumber != "failed") {
             JSONObject jObj = new JSONObject();
             try {
-                jObj.put("pid","quickpay");
+
                 jObj.put("cellPhoneID", new BankAi().getStokedKey(getApplicationContext(), "PhoneNumber"));
                 jObj.put("accountNumber", accountNumber);
                 jObj.put("amount", "");
                 jObj.put("fee", "");
-                jObj.put("xauth",new BankAi().getStokedKey(getApplicationContext(), "x-auth"));
-                jObj.put("type", "Payment");
-                Calendar c = Calendar.getInstance();
-                seconds = c.get(Calendar.SECOND);
-                // payment must go through within 30 seconds @ (till = seconds - 30) verification
-               // jObj.put("security", seconds);
+                jObj.put("type", "Transfer");
                 // items.add(jObj);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             Log.d("data", jObj.toString());
-            String RecipientDetails = jObj.toString();
             String bigInteger = null;
             try {
                 Log.d("xauthTest",new BankAi().getStokedKey(getApplicationContext(), "x-auth"));
                 bigInteger = new BigInteger((new BankAi().getStokedKey(getApplicationContext(), "x-auth")).getBytes("UTF-8")).toString(32);
-            //convert back
+                //convert back
                 Log.d("newTEST",bigInteger);
                 String textBack = new String(new BigInteger(bigInteger,32).toByteArray());
                 Log.d("xauthTESTconvert","And back = " + textBack);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            if (new BankAi().getStokedKey(this,"bitmapPayment")!="failed") {
-                ((ImageView) findViewById(R.id.qr_payment)).setImageBitmap(stringToBitmap(new BankAi().getStokedKey(this,"bitmapPayment")));
+            Log.d("data4", jObj.toString());
+            String RecipientDetails = jObj.toString();
+            if (new BankAi().getStokedKey(this,"bitmapReceive")!="failed") {
+                ((ImageView) findViewById(R.id.qr_receive)).setImageBitmap(stringToBitmap(new BankAi().getStokedKey(this,"bitmapReceive")));
             } else {
-                new getQrCode(true,"bitmapPayment").execute(RecipientDetails);
+                new getQrCode(true,"bitmapReceive").execute(RecipientDetails);
             }
-           if (new BankAi().getStokedKey(this,"barcodePayment")!="failed") {
-               ((ImageView) findViewById(R.id.barq_payment)).setImageBitmap(stringToBitmap(new BankAi().getStokedKey(this,"barcodePayment")));
-          } {
-              new getBarCode(true,"barcodePayment").execute(bigInteger);
-          }
-
+            if (new BankAi().getStokedKey(this,"barcodeReceive")!="failed") {
+                ((ImageView) findViewById(R.id.barq_receive)).setImageBitmap(stringToBitmap(new BankAi().getStokedKey(this,"barcodeReceive")));
+            } {
+                new getBarCode(true,"barcodeReceive").execute(bigInteger);
+            }
         }
+
+
+        final TextView rcvAmtView = (TextView) findViewById(R.id.receive_amount);
+        Button rcvAmtBtn = (Button) findViewById(R.id.receive_button);
+        rcvAmtBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (rcvAmtView != null || rcvAmtView.getText() != null) {
+                    String amt = rcvAmtView.getText().toString();
+                    rcvAmtView.clearFocus();
+                    ((TextView) findViewById(R.id.receive_value)).setText(format.format(Float.parseFloat(amt)));
+                    JSONObject data = new JSONObject();
+                    String accountNumber = new BankAi().getStokedKey(getApplicationContext(), "AccountNumber");
+                    String cellphone = new BankAi().getStokedKey(getApplicationContext(), "Cellphone");
+                    JSONObject jObj = new JSONObject();
+                    if (accountNumber != "failed") {
+                        try{
+                            jObj.put("cellPhoneID", new BankAi().getStokedKey(getApplicationContext(), "PhoneNumber"));
+                            jObj.put("accountNumber", accountNumber);
+                            jObj.put("amount", amt);
+                            jObj.put("fee", "");
+                            jObj.put("type","Transfer");
+                            // items.add(jObj);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("data11",jObj.toString());
+                        String RecipientDetails = jObj.toString();
+                        new getQrCode(false,"Receive").execute(RecipientDetails);
+                    }
+                }
+                findViewById(R.id.receive_edit).setVisibility(View.GONE);
+            }
+        });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+
     public void goToSetAmount(View view) {
-        findViewById(R.id.payment_edit).setVisibility(View.VISIBLE);
+        findViewById(R.id.receive_edit).setVisibility(View.VISIBLE);
     }
+
     public final static Bitmap stringToBitmap(String in) {
         byte[] bytes = Base64.decode(in, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
-
 
     public class getQrCode extends AsyncTask<String, String, Bitmap> {
         private Bitmap bitmap = null;
@@ -164,14 +144,12 @@ public class QuickPayActivity extends AppCompatActivity {
             this.save = save;
             this.type = type;
         }
-
         @Override
         protected Bitmap doInBackground(String... params) {
-
+            Bitmap bitmap = null;
             try {
-                Log.d("data", params[0]);
+                Log.d("data99", params[0]);
                 bitmap = quickReference.getQr(params[0]);
-
             } catch (WriterException e) {
                 e.printStackTrace();
             }
@@ -184,12 +162,14 @@ public class QuickPayActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
         }
 
         @Override
         protected void onPostExecute(Bitmap s) {
             super.onPostExecute(s);
-            ((ImageView) findViewById(R.id.qr_payment)).setImageBitmap(s);
+            ((ImageView) findViewById(R.id.qr_receive)).setImageBitmap(s);
+
         }
     }
 
@@ -228,7 +208,7 @@ public class QuickPayActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap s) {
             super.onPostExecute(s);
-            ((ImageView) findViewById(R.id.barq_payment)).setImageBitmap(s);
+            ((ImageView) findViewById(R.id.barq_receive)).setImageBitmap(s);
         }
     }
 

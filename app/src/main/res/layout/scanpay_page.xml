@@ -13,12 +13,33 @@
     tools:context="com.ktrlabs.thapelo.iwallet.MainActivity"
     tools:showIn="@layout/app_bar_transactions">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:elevation="2dp"
+            android:padding="8dp"
+            android:background="#e9e9e9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:text="Scan and Pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+           <Switch
+               android:id="@+id/flash_switch"
+               android:text="Flash"
+               android:textSize="12sp"
+               android:textStyle="bold"
+               android:textColor="@color/colorAccent"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
         <com.journeyapps.barcodescanner.DecoratedBarcodeView
             android:id="@+id/camera_preview"
@@ -29,16 +50,5 @@
             app:zxing_use_texture_view="true"
             app:zxing_preview_scaling_strategy="fitXY"/>
 
-        <TextView
-            android:text="Scan and Pay"
-            android:textColor="@color/white"
-            android:layout_below="@id/camera_preview"
-            android:layout_marginBottom="72dp"
-            android:layout_gravity="bottom|center"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>

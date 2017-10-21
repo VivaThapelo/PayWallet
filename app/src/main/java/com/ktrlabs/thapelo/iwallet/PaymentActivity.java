@@ -37,6 +37,7 @@ public class PaymentActivity extends AppCompatActivity {
     MainActivity MA = new MainActivity();
     NumberFormat format = NumberFormat.getCurrencyInstance();
     DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+    String xauth = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +154,11 @@ public class PaymentActivity extends AppCompatActivity {
             String toCell = null,account=null,amount = null,type=null;
             try {
                 jsonObject = new JSONObject(params[0]);
+                if (jsonObject.getString("pid")=="quickpay") {
+                    xauth = jsonObject.getString("xauth");
+                } else {
+                    xauth = new BankAi().getStokedKey(getApplicationContext(), "x-auth");
+                }
                 toCell = jsonObject.getString("cellPhoneID");
                 account = jsonObject.getString("accountNumber");
                 type = jsonObject.getString("type");
@@ -185,7 +191,7 @@ public class PaymentActivity extends AppCompatActivity {
             // }
 
             try {
-                res = new BankAi().CreditTransfer(toCell, account, amount, type, new BankAi().getStokedKey(getApplicationContext(), "AccountNumber"),new BankAi().getStokedKey(getApplicationContext(), "x-auth"),coords);
+                res = new BankAi().CreditTransfer(toCell, account, amount, type, new BankAi().getStokedKey(getApplicationContext(), "AccountNumber"),xauth,coords);
                 new  BankAi().SendSms(toCell,"Hello " +  new BankAi().getName(new BankAi().getStokedKey(getApplicationContext(), "x-auth"),account) +", this is to confirm " +  new BankAi().getStokedKey(getApplicationContext(),"AccountHolderName") +" just sent you R"+ amount + " on iWallet");
                 new  BankAi().SendSms(fromCell,"Hello "+ new BankAi().getStokedKey(getApplicationContext(),"AccountHolderName") + ", this is to confirm that you just sent R"+ amount +" to "+new BankAi().getName(new BankAi().getStokedKey(getApplicationContext(), "x-auth"),account)+" on iWallet");
             } catch (IOException e) {

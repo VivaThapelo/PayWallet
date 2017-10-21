@@ -13,22 +13,45 @@
 
 
         <LinearLayout
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:elevation="2dp"
+            android:padding="8dp"
             android:background="#e9e9e9"
             android:layout_width="match_parent"
-            android:layout_height="56dp">
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                android:text="Receive Payments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <Button
-                android:text="Set the receiving amount"
-                android:padding="18sp"
+                android:layout_weight="1"
+                android:text="Set Amount"
+                android:padding="4dp"
+                android:textSize="12sp"
                 android:onClick="goToSetAmount"
-                android:textColor="#777"
-                android:background="#e9e9e9"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:textColor="@color/white"
+                android:background="@drawable/corners_accent"
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
 
         </LinearLayout>
+
+    <TextView
+        android:id="@+id/account_numbers"
+        android:text="Sender must scan this code."
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="8sp"
+        android:layout_marginBottom="-4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
     <LinearLayout
@@ -41,47 +64,48 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center_horizontal"
                 android:orientation="vertical"
-                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_width="300dp"
                 android:layout_height="match_parent">
 
-        <TextView
-            android:text="WalletID"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:visibility="gone"
-            android:textSize="16sp"
-            android:layout_marginTop="8sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/account_numbers"
-            android:text="Sender must scan this code."
-            android:gravity="center"
-            android:textSize="14sp"
-            android:layout_marginTop="8sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
     <ImageView
-        android:elevation="2dp"
-        android:background="@color/white"
         android:layout_gravity="center_horizontal"
         android:id="@+id/qr_receive"
         android:src="@mipmap/ic_launcher"
         android:foregroundGravity="center"
-        android:layout_margin="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:background="@color/white"
         android:layout_width="250dp"
         android:layout_height="250dp" />
 
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/barq_receive"
+                android:elevation="2dp"
+                android:visibility="gone"
+                android:src="@mipmap/ic_launcher"
+                android:foregroundGravity="center"
+                android:layout_width="36dp"
+                android:layout_height="36dp" />
+
+
         <TextView
             android:id="@+id/receive_value"
-            android:text=""
+            android:text="R0.00"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
             android:textSize="28sp"
-            android:layout_width="wrap_content"
+            android:padding="4dp"
+            android:textColor="#888"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:background="@color/background"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
             </LinearLayout>

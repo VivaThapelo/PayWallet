@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:elevation="4dp"
+            android:elevation="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 
@@ -43,7 +43,7 @@
         android:layout_gravity="bottom|center"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginBottom="-2dp"
+        android:layout_marginBottom="-4dp"
         app:rippleColor="@color/colorPrimaryDark"
         app:backgroundTint="@color/colorPrimary"
         app:elevation="9dp"
@@ -71,6 +71,7 @@
         android:layout_gravity="bottom"
         app:elevation="8dp"
         app:menu="@menu/navigation" />
+
 
     </FrameLayout>
 

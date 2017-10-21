@@ -7,18 +7,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Paint;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import java.net.URL;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
@@ -31,7 +34,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
@@ -43,7 +45,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -51,6 +52,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,16 +77,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
@@ -94,14 +98,15 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 import mehdi.sakout.dynamicbox.DynamicBox;
 
+import static com.ktrlabs.thapelo.iwallet.QuickReference.bitmapToString;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
-
+    Boolean internet = true;
+    AsyncTask sum;
+    Menu optionsMenu;
     View viewb,views, viewh, viewr,viewc = null;
-    TextView viewTitle;
-    MenuItem userMenuItem = null;
-    MenuItem scanMenuItem = null;
     DecoratedBarcodeView cameraPreview;
     private CaptureManager capture;
     public final static int QRcodeWidth = 250;
@@ -122,6 +127,7 @@ public class MainActivity extends AppCompatActivity
     AVLoadingIndicatorView avi;
     LinearLayout paymentLayout;
     public String acc;
+    private String daytextSet = "";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -155,78 +161,8 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public class getQrCode extends AsyncTask<String, String, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            Bitmap bitmap = null;
-            try {
-                Log.d("data", params[0]);
-                bitmap = getQr(params[0]);
-            } catch (WriterException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            
-        }
 
-        @Override
-        protected void onPostExecute(Bitmap s) {
-            super.onPostExecute(s);
-            ((ImageView) findViewById(R.id.qr_receive)).setImageBitmap(s);
-            
-        }
-    }
-
-    Bitmap getQr(String Value) throws WriterException {
-        BitMatrix bitMatrix;
-        try {
-            bitMatrix = new MultiFormatWriter().encode(
-                    Value,
-                    BarcodeFormat.DATA_MATRIX.QR_CODE,
-                    QRcodeWidth, QRcodeWidth, null
-            );
-
-        } catch (IllegalArgumentException Illegalargumentexception) {
-
-            return null;
-        }
-        int bitMatrixWidth = bitMatrix.getWidth();
-
-        int bitMatrixHeight = bitMatrix.getHeight();
-
-        int[] pixels = new int[bitMatrixWidth * bitMatrixHeight];
-
-        for (int y = 0; y < bitMatrixHeight; y++) {
-            int offset = y * bitMatrixWidth;
-
-            for (int x = 0; x < bitMatrixWidth; x++) {
-
-                pixels[offset + x] = bitMatrix.get(x, y) ?
-                        getResources().getColor(R.color.black) : getResources().getColor(R.color.white);
-            }
-        }
-        Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
-
-        bitmap.setPixels(pixels, 0, QRcodeWidth, 0, 0, bitMatrixWidth, bitMatrixHeight);
-        new BankAi().storeKey(getApplicationContext(), "bitmap", bitmapToString(bitmap));
-        return bitmap;
-    }
-
-    public final static String bitmapToString(Bitmap in) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        in.compress(Bitmap.CompressFormat.PNG, 100, bytes);
-        return Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
-    }
-
-    public final static Bitmap stringToBitmap(String in) {
-        byte[] bytes = Base64.decode(in, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-    }
 
     public void viewToggle(View view) {
         if (view == views) {
@@ -278,12 +214,27 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_transactions);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         Realm.init(this);
         //Realm realm = Realm.getDefaultInstance();
         RealmConfiguration config = new RealmConfiguration
                 .Builder()
                 .deleteRealmIfMigrationNeeded()
                 .build();
+        if (!hasFlash()) {
+            findViewById(R.id.flash_switch).setEnabled(false);
+        }
+
+        ((Switch)findViewById(R.id.flash_switch)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((Switch)findViewById(R.id.flash_switch)).isChecked()) {
+                    cameraPreview.setTorchOn();
+                } else {
+                    cameraPreview.setTorchOff();
+                }
+            }
+        });
 
         Realm realm = Realm.getInstance(config);
 
@@ -347,7 +298,12 @@ public class MainActivity extends AppCompatActivity
 
         if (new BankAi().getStokedKey(getApplicationContext(), "idNumber") != "failed" && new BankAi().getStokedKey(getApplicationContext(), "password") != "failed") {
             Log.d("Details refresh happens", new BankAi().getStokedKey(getApplicationContext(), "idNumber"));
-            new BankLoginAsync().execute();
+
+                if (true) {
+                    new BankLoginAsync().execute();
+                } else {
+                    Toast.makeText(this, "No Internet Connection. Please check the connection and try again.", Toast.LENGTH_LONG).show();
+                }
         }
 
         ((ImageButton) findViewById(R.id.receive_clear)).setOnClickListener(new View.OnClickListener() {
@@ -357,10 +313,15 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        new getTransactionList().execute();
-        new refreshAccountDetails().execute();
+            if (true) {
+                 new getTransactionList().execute();
+                new refreshAccountDetails().execute();
+            } else {
+                Toast.makeText(this, "No Internet Connection. Please check the connection and try again.", Toast.LENGTH_SHORT).show();
+            }
 
-        RealmResults<Transaction> realmResults= realm.where(Transaction.class).findAllAsync();
+
+        RealmResults<Transaction> realmResults= realm.where(Transaction.class).findAllSortedAsync("id", Sort.DESCENDING);
 
         transactionsAdapter = new TransactionsAdapter(realmResults);
 
@@ -369,39 +330,6 @@ public class MainActivity extends AppCompatActivity
         transactionSpinner.showLoadingLayout();
         transactionsList.setAdapter(transactionsAdapter);
         transactionSpinner.hideAll();
-
-        final TextView rcvAmtView = (TextView) findViewById(R.id.receive_amount);
-        Button rcvAmtBtn = (Button) findViewById(R.id.receive_button);
-        rcvAmtBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (rcvAmtView != null || rcvAmtView.getText() != null) {
-                    String amt = rcvAmtView.getText().toString();
-                    rcvAmtView.clearFocus();
-                    ((TextView) findViewById(R.id.receive_value)).setText(format.format(Float.parseFloat(amt)));
-                    JSONObject data = new JSONObject();
-                    String accountNumber = new BankAi().getStokedKey(getApplicationContext(), "AccountNumber");
-                    String cellphone = new BankAi().getStokedKey(getApplicationContext(), "Cellphone");
-                    JSONObject jObj = new JSONObject();
-                    if (accountNumber != "failed") {
-                     try{
-                        jObj.put("cellPhoneID", new BankAi().getStokedKey(getApplicationContext(), "PhoneNumber"));
-                        jObj.put("accountNumber", accountNumber);
-                        jObj.put("amount", amt);
-                        jObj.put("fee", "");
-                        jObj.put("type","Transfer");
-                       // items.add(jObj);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                        Log.d("data",jObj.toString());
-                        String RecipientDetails = jObj.toString();
-                        new getQrCode().execute(RecipientDetails);
-                    }
-                }
-                findViewById(R.id.receive_edit).setVisibility(View.GONE);
-            }
-        });
 
 
         capture = new CaptureManager(this, cameraPreview);
@@ -427,26 +355,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        JSONObject data = new JSONObject();
-        String accountNumber = new BankAi().getStokedKey(getApplicationContext(), "AccountNumber");
-        String cellphone = new BankAi().getStokedKey(getApplicationContext(), "Cellphone");
-        if (accountNumber != "failed") {
-            JSONObject jObj = new JSONObject();
-                try {
-
-                    jObj.put("cellPhoneID", new BankAi().getStokedKey(getApplicationContext(), "PhoneNumber"));
-                    jObj.put("accountNumber", accountNumber);
-                    jObj.put("amount", "");
-                    jObj.put("fee", "");
-                    jObj.put("type", "Transfer");
-                    // items.add(jObj);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.d("data", jObj.toString());
-                String RecipientDetails = jObj.toString();
-                new getQrCode().execute(RecipientDetails);
-        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -511,9 +419,10 @@ public class MainActivity extends AppCompatActivity
                     intent.setClass(getApplicationContext(),PaymentActivity.class);
                     intent.putExtra("result",result.getText());
                     startActivity(intent);
-                     new MainActivity.getTransactionList().execute();
-                    new MainActivity.refreshAccountDetails().execute();
-                    new MainActivity.BankLoginAsync().execute();
+
+                    // new MainActivity.getTransactionList().execute();
+                 //   new MainActivity.refreshAccountDetails().execute();
+                 //   new MainActivity.BankLoginAsync().execute();
 
                 /*  button.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -566,13 +475,16 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if ( new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance")!="failed") {
-                ((TextView) findViewById(R.id.balance)).setText(format.format(Float.parseFloat(new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance"))));
-                ((TextView) findViewById(R.id.balamt)).setText(format.format(Float.parseFloat(new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance"))));
-
-            }else {
-                ((TextView) findViewById(R.id.balance)).setText("Failed");
-                ((TextView) findViewById(R.id.balamt)).setText("Failed");
+            TextView balance = (TextView) findViewById(R.id.balance);
+            TextView balamt = (TextView) findViewById(R.id.balamt);
+            if (balance!=null && balamt!=null) {
+                if (new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance") != "failed") {
+                    balance.setText(format.format(Float.parseFloat(new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance"))));
+                    balamt.setText(format.format(Float.parseFloat(new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance"))));
+                } else {
+                    ((TextView) findViewById(R.id.balance)).setText("Failed");
+                    ((TextView) findViewById(R.id.balamt)).setText("Failed");
+                }
             }
         }
     }
@@ -605,6 +517,7 @@ public class MainActivity extends AppCompatActivity
                         String amount = json_data.getString("Amount");
                         String fee = json_data.getString("Fee");
                         String desc = json_data.getString("Desc");
+                        String status = json_data.getString("Status");
                         Float amt = Float.parseFloat(amount);
                         String name = null;
                         if (amt < 0) {
@@ -620,6 +533,7 @@ public class MainActivity extends AppCompatActivity
                         jObj.put("amount", amount);
                         jObj.put("fee", fee);
                         jObj.put("type",desc);
+                        jObj.put("status",status);
                         RealmConfiguration config = new RealmConfiguration
                                 .Builder()
                                 .deleteRealmIfMigrationNeeded()
@@ -661,8 +575,9 @@ public class MainActivity extends AppCompatActivity
             Realm realm = Realm.getInstance(config);
             try {
                 // Work with Realm
-                realm.beginTransaction();
-                RealmResults realmResults = realm.where(Transaction.class).findAll();
+               realm.beginTransaction();
+                RealmResults realmResults = realm.where(Transaction.class).findAllSorted("id",Sort.DESCENDING);
+                //transactionsAdapter.updateData(realmResults);
                 if (realmResults.isEmpty()) {
                     LinearLayout linearLayout = (LinearLayout) findViewById(R.id.home_transactions);
                     TextView textView = new TextView(getApplicationContext());
@@ -720,7 +635,13 @@ public class MainActivity extends AppCompatActivity
                             jsonObject.put("fee","");
                             jsonObject.put("type","Transfer");
                             jsonObject.put("accountNumber", "");
-                            new getAccWithID().execute(jsonObject);
+
+                                if (true) {
+                                    new getAccWithID().execute(jsonObject);
+                                } else {
+                                    Toast.makeText(this, "No Internet Connection. Please check the connection and try again.", Toast.LENGTH_SHORT).show();
+                                }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -768,7 +689,10 @@ public class MainActivity extends AppCompatActivity
             TextView type;
             TextView name;
             TextView amount;
-            TextView date;
+            TextView time;
+            TextView status;
+            TextView dayText;
+            TextView no_transact;
         }
 
         @NonNull
@@ -786,8 +710,12 @@ public class MainActivity extends AppCompatActivity
                 holder.type = (TextView) convertView.findViewById(R.id.type);
                 holder.propic = (CircularImageView) convertView.findViewById(R.id.profile_image);
                 holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.date = (TextView) convertView.findViewById(R.id.date);
+                holder.time = (TextView) convertView.findViewById(R.id.time);
                 holder.amount = (TextView) convertView.findViewById(R.id.amount);
+                holder.status = (TextView) convertView.findViewById(R.id.status);
+                holder.dayText = (TextView) convertView.findViewById(R.id.day_text);
+                holder.no_transact = (TextView) convertView.findViewById(R.id.no_transactions);
+
 
                 convertView.setTag(holder);
             } else {
@@ -801,14 +729,74 @@ public class MainActivity extends AppCompatActivity
                // convertView.setBackgroundColor(myColorRand(inc));
                 if (holder.name != null) {
                     if (jsonObject.getName().length()==0) {
-                        holder.name.setText("Bank");
+                        holder.name.setText("iWallet Merchant");
                     } else {
                         holder.name.setText(jsonObject.getName());
                     }
                 }
-                if (holder.date != null) {
-                    holder.date.setText(getDateTime( jsonObject.getDate() ));
+                if (holder.time != null) {
+                    holder.time.setText(getTime( jsonObject.getDate() ));
                 }
+                if (holder.dayText!=null) {
+                    String formattedDate = new SimpleDateFormat("dd MMM yyyy").format(Calendar.getInstance().getTime());
+                    String yesterdayDate =  Integer.parseInt(formattedDate.substring(0,2))-1 + formattedDate.substring(2);
+                    if (jsonObject.getDate()!=null) {
+                        if (!daytextSet.contentEquals("") && daytextSet.contentEquals(getDate(jsonObject.getDate()))) {
+                            daytextSet = getDate(jsonObject.getDate());
+                            holder.dayText.setVisibility(View.GONE);
+                        } else {
+                            if (formattedDate.contentEquals(getDate(jsonObject.getDate()))) {
+                                holder.dayText.setText("Today");
+                            } else if (yesterdayDate.contentEquals(getDate(jsonObject.getDate()))){
+                                holder.dayText.setText("Yesterday");
+                            } else {
+                                holder.dayText.setText(getDate(jsonObject.getDate()));
+                            }
+                            holder.dayText.setVisibility(View.VISIBLE);
+                            daytextSet = getDate(jsonObject.getDate());
+                        }
+                    }
+                }
+             /*    if (holder.no_transact!=null) {
+                   // conditions for showing transaction days
+                    Log.d("Which day?",daytextSet);
+                    if (daytextSet == "" || daytextSet == "todayagain"){
+                        if (daytextSet=="") {
+                            holder.dayText.setVisibility(View.VISIBLE);
+                            holder.dayText.setText("Today");
+                        }
+                        // If today
+                        if (System.currentTimeMillis() - jsonObject.getDate() < 86400000) {
+                            holder.no_transact.setVisibility(View.GONE);
+                            daytextSet = "todayagain";
+                        } else {
+                            // if yesterday
+                            if (daytextSet=="todayagain") {
+                                holder.no_transact.setVisibility(View.GONE);
+                            } else {
+                                holder.no_transact.setVisibility(View.VISIBLE);
+                            }
+                            daytextSet = "today";
+                        }
+                    } else if ( (daytextSet=="today" || daytextSet == "yesterdayagain") && daytextSet!="" && daytextSet!="todayagain") {
+                        if (daytextSet=="today") {
+                            holder.dayText.setText("Yesterday");
+                            holder.dayText.setVisibility(View.VISIBLE);
+                        }
+                        if ( System.currentTimeMillis() - jsonObject.getDate() > 86400000 && System.currentTimeMillis() - jsonObject.getDate() < (2*86400000) ) {
+                            holder.no_transact.setVisibility(View.GONE);
+                            daytextSet ="yesterdayagain";
+                        } else {
+                            holder.no_transact.setVisibility(View.VISIBLE);
+                            daytextSet = "yesterday";
+                        }
+                    } else if ( jsonObject.getName()!=null && daytextSet=="yesterday" && daytextSet!="" && daytextSet!="today" && daytextSet!="todayagain" && daytextSet!="yesterdayagain" ) {
+                            holder.dayText.setText("All");
+                            holder.dayText.setVisibility(View.VISIBLE);
+                            holder.no_transact.setVisibility(View.GONE);
+                            daytextSet = "All";
+                    }
+                } */
                 if (holder.amount != null) {
                     if (Double.parseDouble(jsonObject.getAmount())<0) {
                         holder.amount.setTextColor(Color.RED);
@@ -822,6 +810,10 @@ public class MainActivity extends AppCompatActivity
                 }
                 if (holder.type != null) {
                     holder.type.setText(jsonObject.getType() );
+                }
+
+                if (holder.status != null) {
+                    holder.status.setText(jsonObject.getStatus().substring(0,1).toUpperCase() + jsonObject.getStatus().substring(1));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -862,10 +854,12 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             transactionsAdapter.notifyDataSetChanged();
-            if (new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance")!="failed") {
-                balance.setTitle(format.format(Float.parseFloat(  new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance")  ) ));
-            }else {
+            if (balance==null) {
+                // Do nothing
+            } else if (new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance")=="failed") {
                 balance.setTitle("Failed");
+            }else {
+                balance.setTitle(format.format(Float.parseFloat(  new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance")  ) ));
             }
         }
     }
@@ -878,7 +872,29 @@ public class MainActivity extends AppCompatActivity
     private String getDateTime(long timeStampStr) {
 
         try {
-            String date = new SimpleDateFormat("hh:mm a - dd MMM yyyy").format(new Date(timeStampStr * 1000));
+            String date = new SimpleDateFormat("HH:mm dd.MM.yyyy").format(new Date(timeStampStr * 1000));
+            return date;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Long.toString(timeStampStr);
+        }
+    }
+
+    private String getTime(long timeStampStr) {
+
+        try {
+            String date = new SimpleDateFormat("HH:mm").format(new Date(timeStampStr * 1000));
+            return date;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Long.toString(timeStampStr);
+        }
+    }
+
+    private String getDate(long timeStampStr) {
+
+        try {
+            String date = new SimpleDateFormat("dd MMM yyyy").format(new Date(timeStampStr * 1000));
             return date;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -900,6 +916,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.transactions, menu);
+        optionsMenu = menu;
         //userMenuItem = (MenuItem) menu.findItem(R.id.add_account);
         balance = menu.findItem(R.id.balance);
         if (new BankAi().getStokedKey(getApplicationContext(), "AvailableBalance") != "failed") {
@@ -926,7 +943,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (id == R.id.balance) {
-            Intent intent = new Intent(this, Account.class);
+            Intent intent = new Intent(this, Deposit.class);
             startActivity(intent);
         }
 
@@ -979,14 +996,54 @@ public class MainActivity extends AppCompatActivity
         capture.onSaveInstanceState(outState);
     }
 
+    public class hasActiveInternetConnection extends AsyncTask<String,String,Boolean>{
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            if (isNetworkAvailable()) {
+                try {
+                    HttpURLConnection urlc = (HttpURLConnection) (new URL("http://clients3.google.com/generate_204").openConnection());
+                    urlc.setRequestProperty("User-Agent", "Test");
+                    urlc.setRequestProperty("Connection", "close");
+                    urlc.setConnectTimeout(1500);
+                    urlc.connect();
+                    return (urlc.getResponseCode() == 204 && urlc.getContentLength() == 0);
+                } catch (IOException e) {
+                    Log.e("Internet?", "Error checking internet connection", e);
+                }
+            } else {
+                Log.d("Network/Internet?", "No network available!");
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            internet = aBoolean;
+        }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
         capture.onResume();
-        if (new BankAi().getStokedKey(getApplicationContext(),"idNumber")!="failed" && new BankAi().getStokedKey(getApplicationContext(),"password")!="failed") {
+      if (new BankAi().getStokedKey(getApplicationContext(),"idNumber")!="failed" && new BankAi().getStokedKey(getApplicationContext(),"password")!="failed") {
             Log.d("From Resume","it will try to login");
-            new BankLoginAsync().execute();
-            new refreshAccountDetails().execute();
+                if (true) {
+                   // new BankLoginAsync().execute();
+                  //  new refreshAccountDetails().execute();
+                } else {
+                    Toast.makeText(this, "No Internet Connection. Please check the connection and try again.", Toast.LENGTH_LONG).show();
+                }
+
         }
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mMessageReceiver,
                 new IntentFilter("myFunction"));
@@ -1022,8 +1079,10 @@ public class MainActivity extends AppCompatActivity
            // String message = intent.getStringExtra("message");
             //alert data here
             //Toast.makeText(getApplicationContext(),from+": "+message,Toast.LENGTH_LONG).show();
-            new getTransactionList().execute();
-            new refreshAccountDetails().execute();
+                if (true) {
+                    new getTransactionList().execute();
+                    new refreshAccountDetails().execute();
+                }
         }
     };
 
@@ -1077,9 +1136,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public void gotoProfile(View view) {
+        Intent intent = new Intent(this, Account.class);
+        startActivity(intent);
+    }
+
     public void goToGeoPay(View view)
     {
-        Intent intent = new Intent(this, GeoPay.class);
+        Intent intent = new Intent(this, EasyPayActivity.class);
         startActivity(intent);
     }
 
@@ -1095,13 +1159,21 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void goToSetAmount(View view) {
-         findViewById(R.id.receive_edit).setVisibility(View.VISIBLE);
+    public void goToContacts(View view)
+    {
+        Intent intent = new Intent(this, ContactsActivtity.class);
+        startActivity(intent);
     }
 
     public void goToQrPay(View view)
     {
         Intent intent = new Intent(this, QuickPayActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToQrReceive(View view)
+    {
+        Intent intent = new Intent(this, ReceiveActivity.class);
         startActivity(intent);
     }
 
@@ -1117,6 +1189,11 @@ public class MainActivity extends AppCompatActivity
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         }
+    }
+
+    private boolean hasFlash() {
+        return getApplicationContext().getPackageManager()
+                .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
     }
 
     public void triggerScan(View view) {

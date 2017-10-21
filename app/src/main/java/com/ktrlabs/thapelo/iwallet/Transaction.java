@@ -14,7 +14,7 @@ public class Transaction extends RealmObject {
     private int id;
 
     private String name;
-    private String type,amount,fee;
+    private String type,amount,fee,status;
     private  Long date;
 
     public int getId() {
@@ -40,4 +40,6 @@ public class Transaction extends RealmObject {
     public String getType() {
         return type;
     }
+
+    public String getStatus() {return status;}
 }

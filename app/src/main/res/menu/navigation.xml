@@ -20,14 +20,15 @@
         android:title="" />
 
     <item
-    android:id="@+id/navigation_receive"
-    android:icon="@drawable/ic_exit_to_app_black_24dp"
-    android:orderInCategory="100"
-    android:title="Receive" />
-
-    <item
         android:id="@+id/navigation_shopping"
         android:icon="@drawable/ic_local_atm_black_24dp"
         android:orderInCategory="100"
         android:title="Requests" />
+
+    <item
+        android:id="@+id/navigation_receive"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:orderInCategory="100"
+        android:title="Profile" />
+
 </menu>

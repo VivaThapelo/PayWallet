@@ -9,7 +9,7 @@
     android:background="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.ktrlabs.thapelo.iwallet.MainActivity"
-    tools:showIn="@layout/activity_qr_pay"
+    tools:showIn="@layout/activity_receive"
     >
 
     <LinearLayout
@@ -32,7 +32,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
-                android:text="Make Payments"
+                android:text="Accept Payments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -54,7 +54,7 @@
 
     <TextView
         android:id="@+id/account_numbers"
-        android:text="Merchant must scan this code."
+        android:text="Sender must scan this code."
         android:gravity="center"
         android:textSize="14sp"
         android:textColor="@color/white"
@@ -83,7 +83,7 @@
 
                 <ImageView
                     android:layout_gravity="center_horizontal"
-                    android:id="@+id/barq_payment"
+                    android:id="@+id/barq_receive"
                     android:src="@mipmap/ic_launcher"
                     android:foregroundGravity="center"
                     android:paddingLeft="16dp"
@@ -95,7 +95,7 @@
 
                 <ImageView
                     android:layout_gravity="center_horizontal"
-                    android:id="@+id/qr_payment"
+                    android:id="@+id/qr_receive"
                     android:src="@mipmap/ic_launcher"
                     android:foregroundGravity="center"
                     android:layout_width="250dp"
@@ -103,7 +103,7 @@
 
 
                 <TextView
-                    android:id="@+id/payment_value"
+                    android:id="@+id/receive_value"
                     android:text="R0.00"
                     android:layout_gravity="center_horizontal"
                     android:textStyle="bold"
@@ -119,7 +119,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/payment_edit"
+                android:id="@+id/receive_edit"
                 android:padding="8dp"
                 android:elevation="8dp"
                 android:visibility="gone"
@@ -163,7 +163,7 @@
                         android:layout_height="match_parent" />
 
                     <EditText
-                        android:id="@+id/payment_amount"
+                        android:id="@+id/receive_amount"
                         android:inputType="numberDecimal"
                         android:textSize="36sp"
                         android:textStyle="bold"
@@ -180,7 +180,7 @@
 
 
                     <ImageButton
-                        android:id="@+id/payment_clear"
+                        android:id="@+id/receive_clear"
                         android:src="@drawable/ic_clear_black_24dp"
                         android:padding="12sp"
                         android:background="@color/white"
@@ -191,7 +191,7 @@
 
 
                 <Button
-                    android:id="@+id/payment_button"
+                    android:id="@+id/receive_button"
                     android:fadingEdgeLength="10sp"
                     android:text="Update"
                     android:textStyle="bold"

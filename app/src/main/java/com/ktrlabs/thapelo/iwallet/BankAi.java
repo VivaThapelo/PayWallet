@@ -37,7 +37,9 @@ public class BankAi {
             storeKey(activity,"info",info.toString());
             Log.d("BankAi line 42","password="+ details[1]);
             String auth = bankLogin(activity,details[0],details[1]);
-            createAccount(auth);
+            createAccount(auth,"cheque");
+            createAccount(auth,"savings");
+            createAccount(auth,"rcp");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,18 +68,19 @@ public class BankAi {
             this.storeKey(context,"password",password);
             this.storeKey(context,"account",account);
             this.storeKey(context,"x-auth",auth);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
         return auth;
     }
 
-    private boolean createAccount(String xauth) throws IOException {
+    private boolean createAccount(String xauth,String type) throws IOException {
+        String response;
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
         okhttp3.RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("AccountType","cheque")
+                .addFormDataPart("AccountType",type)
                 .build();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
@@ -89,9 +92,14 @@ public class BankAi {
                 .post(requestBody)
                 .build();
 
-        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
 
-        String response = httpResponse.body().string();
         Log.d(request.toString(),response);
 
         try {
@@ -105,6 +113,7 @@ public class BankAi {
 
     public String[] createUser(String[]... data) throws IOException {
         Log.v("stuff", data.toString());
+        String response = null;
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
         httpClient.retryOnConnectionFailure();
         okhttp3.RequestBody requestBody = new MultipartBody.Builder()
@@ -129,10 +138,12 @@ public class BankAi {
                 .post(requestBody)
                 .build();
 
-
-        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
-
-        String response = httpResponse.body().string();
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Log.d(request.toString(),response);
 
 
@@ -144,6 +155,7 @@ public class BankAi {
 
     public String getAccountWithID(String ID,String auth) throws IOException, JSONException {
         Log.v("stuff", ID);
+        String response;
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
         httpClient.retryOnConnectionFailure();
         okhttp3.RequestBody requestBody = new MultipartBody.Builder()
@@ -160,9 +172,13 @@ public class BankAi {
                 .post(requestBody)
                 .build();
 
-
-        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
-        String response = httpResponse.body().string();
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
         JSONObject jsonObject = new JSONObject(response);
         String account = jsonObject.getString("response");
 
@@ -171,6 +187,7 @@ public class BankAi {
 
     public String[] getAuthRequest(String walletID,String passWord) throws IOException {
         Log.d(walletID,passWord);
+        String response;
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
         okhttp3.RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -186,10 +203,13 @@ public class BankAi {
                 .post(requestBody)
                 .build();
 
-
-        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
-
-        String response = httpResponse.body().string();
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
         Log.d(request.toString(),response);
         String jString = null;
         try {
@@ -203,7 +223,7 @@ public class BankAi {
     }
 
     public boolean setPushToken(Context cont,String auth) throws IOException {
-
+        String response =null;
         String android_id = FirebaseInstanceId.getInstance().getToken();
         Log.d("FCM", "Refreshed token: " + android_id);
 
@@ -212,22 +232,25 @@ public class BankAi {
         okhttp3.RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("PushToken", android_id)
-                .addFormDataPart("Platform","android")
+                .addFormDataPart("Platform", "android")
                 .build();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
-                .url(base_url+"/accountPushToken")
+                .url(base_url + "/accountPushToken")
                 //.method("POST", okhttp3.RequestBody.create(null, new byte[0]))
-                .addHeader("x-auth-token",auth)
-                .addHeader("cache-control","no-cache")
-                .addHeader("content-type","multipart/form-data; boundary=---011000010111000001101001")
+                .addHeader("x-auth-token", auth)
+                .addHeader("cache-control", "no-cache")
+                .addHeader("content-type", "multipart/form-data; boundary=---011000010111000001101001")
                 .post(requestBody)
                 .build();
 
-
-        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
-
-        String response = httpResponse.body().string();
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         Log.d(request.toString(),response);
         String jString = null;
         try {
@@ -241,6 +264,7 @@ public class BankAi {
     }
 
     public String getLoginRequest(String authresponse,String Password) throws IOException {
+        String response = null;
         Log.d("responza",authresponse + " " + Password);
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
         okhttp3.RequestBody requestBody = new MultipartBody.Builder()
@@ -256,10 +280,13 @@ public class BankAi {
                 .post(requestBody)
                 .build();
 
-
-        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
-
-        String response = httpResponse.body().string();
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
         Log.d(request.toString(),response);
         String jString = null;
         try {
@@ -279,7 +306,7 @@ public class BankAi {
     }
 
     public boolean getAndStoreAccountDetails(Context context,String token) throws IOException {
-
+        String response = null;
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
@@ -289,10 +316,13 @@ public class BankAi {
                 .get()
                 .build();
 
-
-        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
-
-        String response = httpResponse.body().string();
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         Log.d(request.toString(),response);
         if (response==null) {
             return false;
@@ -329,7 +359,7 @@ public class BankAi {
     }
 
     public boolean getAndStoreAccountDetails2(Context context,String token) throws IOException {
-
+        String response = null;
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
@@ -339,10 +369,13 @@ public class BankAi {
                 .get()
                 .build();
 
-
-        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
-
-        String response = httpResponse.body().string();
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         Log.d(request.toString(),response);
 
         String ContactNumber1,EmailAddress = null;
@@ -364,6 +397,7 @@ public class BankAi {
     }
 
     public String getName(String xauth, String accountNumber) throws IOException {
+        String response = null;
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
 
         okhttp3.Request request = new okhttp3.Request.Builder()
@@ -373,9 +407,13 @@ public class BankAi {
                 .get()
                 .build();
 
-        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
-
-        String response = httpResponse.body().string();
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
         Log.d(request.toString(),response);
         JSONObject jsonObject = null;
         String jString = null;
@@ -408,6 +446,7 @@ public class BankAi {
     }
 
     public boolean SendSms (String phone_number,String message) throws IOException {
+        String response = null;
         Log.d("phone number", phone_number);
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
@@ -424,15 +463,20 @@ public class BankAi {
                 .post(requestBody)
                 .build();
 
-
-        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
-        String response = httpResponse.body().string();
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         Log.d(request.toString(),response);
 
         return true;
     }
 
     public String CreditTransfer(String cell, String account,String amount, String type, String myaccount,String auth, String[] location) throws IOException {
+        String response = null;
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
         httpClient.retryOnConnectionFailure();
         String lon,lat;
@@ -460,12 +504,18 @@ public class BankAi {
                 .post(requestBody)
                 .build();
 
-        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
-        String response = httpResponse.body().string();
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
         return response;
     }
 
     public JSONArray TransactionList(String xauth, String accnum) throws IOException {
+        String response = null;
         Log.d("x-auth",xauth);
         Log.d("accn",accnum);
         okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
@@ -480,9 +530,13 @@ public class BankAi {
                 .get()
                 .build();
 
-        okhttp3.Response httpResponse = httpClient.newCall(request).execute();
-
-        String response = httpResponse.body().string();
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
         Log.d("BankListResponse",response);
         String jString = null;
         JSONArray jsonArray = null;

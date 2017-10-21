@@ -64,8 +64,8 @@
                 android:value="com.ktrlabs.thapelo.iwallet.MainActivity" />
         </activity>
         <activity
-            android:name=".GeoPay"
-            android:label="@string/title_activity_geo_pay"
+            android:name=".EasyPayActivity"
+            android:label="@string/title_activity_easypay"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -119,7 +119,25 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".TransferActivity"
-            android:label="@string/title_activity_tranfer"
+            android:label="@string/title_activity_transfer"
+            android:parentActivityName=".PaymentActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ktrlabs.thapelo.iwallet.PaymentActivity" />
+        </activity>
+        <activity
+            android:name=".ContactsActivtity"
+            android:label="@string/title_activity_contacts_activtity"
+            android:parentActivityName=".PaymentActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ktrlabs.thapelo.iwallet.PaymentActivity" />
+        </activity>
+        <activity
+            android:name=".ReceiveActivity"
+            android:label="@string/title_activity_receive"
             android:parentActivityName=".PaymentActivity"
             android:theme="@style/AppTheme">
             <meta-data

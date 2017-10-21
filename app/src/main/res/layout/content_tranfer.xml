@@ -8,4 +8,22 @@
     tools:context="com.ktrlabs.thapelo.iwallet.TransferActivity"
     tools:showIn="@layout/activity_tranfer">
 
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/transferer"
+        android:padding="8dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.AppCompatSpinner>
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/transferee"
+        android:padding="8dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.AppCompatSpinner>
+
 </android.support.constraint.ConstraintLayout>

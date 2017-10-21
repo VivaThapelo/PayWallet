@@ -9,30 +9,44 @@
     tools:context="com.ktrlabs.thapelo.iwallet.Deposit"
     tools:showIn="@layout/activity_deposit">
 
-
-    <TextView
-        android:text="Choose A Deposit Method"
-        android:textColor="#777"
-        android:background="#e9e9e9"
-        android:elevation="2dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="56dp" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <LinearLayout
-        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:elevation="2dp"
+        android:padding="8dp"
+        android:background="#e9e9e9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_weight="1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:text="Deposit Methods"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/select_contact_receive"
+            android:padding="4dp"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:onClick="getContact"
+            android:background="@drawable/corners_accent"
+            android:text="Send Request"
+            android:layout_width="28dp"
+            android:layout_height="28dp" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:gravity="center_vertical"
         android:elevation="2dp"
         android:padding="8dp"
         android:layout_margin="8dp"
-        android:background="@color/white"
+        android:background="@drawable/corners_white"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,127 +81,44 @@
 
     </LinearLayout>
 
-    <TextView
-        android:text="OR"
-        android:textColor="#000"
-        android:textSize="24sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="8dp"
+        android:gravity="center_vertical"
         android:elevation="2dp"
+        android:padding="8dp"
         android:layout_margin="8dp"
-        android:background="@color/white"
+        android:background="@drawable/corners_white"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:padding="8dp"
+            android:src="@drawable/ic_place_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <ImageView
-                android:padding="8dp"
-                android:src="@drawable/ic_credit_card_black_24dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
             <TextView
                 android:textStyle="bold"
                 android:textSize="16dp"
-                android:text="Transfer from Bank Account"
+                android:text="Deposit at a merchant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-        </LinearLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:hint="Amount(R)"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.AppCompatEditText
+            <TextView
+                android:textSize="11dp"
+                android:text="Locate a merchant"
                 android:layout_width="match_parent"
-                android:inputType="numberDecimal"
                 android:layout_height="wrap_content" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:hint="Name on Card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.AppCompatEditText
-                android:layout_width="match_parent"
-                android:inputType="textCapWords"
-                android:layout_height="wrap_content" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:hint="Card Number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.AppCompatEditText
-                android:layout_width="match_parent"
-                android:inputType="number"
-                android:layout_height="wrap_content" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <android.support.design.widget.TextInputLayout
-            android:hint="Card Expires"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.AppCompatEditText
-                android:layout_width="match_parent"
-                android:inputType="text"
-                android:layout_height="wrap_content" />
-
-        </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:hint="CVV"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.AppCompatEditText
-                    android:layout_width="match_parent"
-                    android:inputType="number"
-                    android:layout_height="wrap_content" />
-
-            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
-        <Button
-            android:textColor="@color/white"
-            android:background="@color/colorAccent"
-            android:text="Deposit to Wallet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
 
     </LinearLayout>
-
-    </LinearLayout>
-
-    </ScrollView>
-
 
 </LinearLayout>
