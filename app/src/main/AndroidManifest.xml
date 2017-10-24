@@ -116,6 +116,7 @@
         <activity
             android:name=".WithdrawActivity"
             android:label="@string/title_activity_withdraw"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".TransferActivity"
@@ -138,6 +139,24 @@
         <activity
             android:name=".ReceiveActivity"
             android:label="@string/title_activity_receive"
+            android:parentActivityName=".PaymentActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ktrlabs.thapelo.iwallet.PaymentActivity" />
+        </activity>
+        <activity
+            android:name=".NotificationsActivity"
+            android:label="@string/title_activity_notifications"
+            android:parentActivityName=".PaymentActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ktrlabs.thapelo.iwallet.PaymentActivity" />
+        </activity>
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/title_activity_help"
             android:parentActivityName=".PaymentActivity"
             android:theme="@style/AppTheme">
             <meta-data

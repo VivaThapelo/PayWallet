@@ -29,4 +29,6 @@
     <string name="title_activity_transfer">Transfer</string>
     <string name="title_activity_contacts_activtity">Contacts</string>
     <string name="title_activity_receive">Receive</string>
+    <string name="title_activity_notifications">Notifications</string>
+    <string name="title_activity_help">Help</string>
 </resources>

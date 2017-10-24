@@ -1153,14 +1153,13 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void gotoProfile(View view) {
-        Intent intent = new Intent(this, Account.class);
+    public void gotoNotifications(View view) {
+        Intent intent = new Intent(this, NotificationsActivity.class);
         startActivity(intent);
     }
 
-    public void goToGeoPay(View view)
-    {
-        Intent intent = new Intent(this, EasyPayActivity.class);
+    public void goToHelp(View view) {
+        Intent intent = new Intent(this, HelpActivity.class);
         startActivity(intent);
     }
 

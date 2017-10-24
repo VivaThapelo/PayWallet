@@ -192,8 +192,9 @@ public class PaymentActivity extends AppCompatActivity {
 
             try {
                 res = new BankAi().CreditTransfer(toCell, account, amount, type, new BankAi().getStokedKey(getApplicationContext(), "AccountNumber"),xauth,coords);
-                new  BankAi().SendSms(toCell,"Hello " +  new BankAi().getName(new BankAi().getStokedKey(getApplicationContext(), "x-auth"),account) +", this is to confirm " +  new BankAi().getStokedKey(getApplicationContext(),"AccountHolderName") +" just sent you R"+ amount + " on iWallet");
-                new  BankAi().SendSms(fromCell,"Hello "+ new BankAi().getStokedKey(getApplicationContext(),"AccountHolderName") + ", this is to confirm that you just sent R"+ amount +" to "+new BankAi().getName(new BankAi().getStokedKey(getApplicationContext(), "x-auth"),account)+" on iWallet");
+              // this if for sms notifications
+                //  new  BankAi().SendSms(toCell,"Hello " +  new BankAi().getName(new BankAi().getStokedKey(getApplicationContext(), "x-auth"),account) +", this is to confirm " +  new BankAi().getStokedKey(getApplicationContext(),"AccountHolderName") +" just sent you R"+ amount + " on iWallet");
+               // new  BankAi().SendSms(fromCell,"Hello "+ new BankAi().getStokedKey(getApplicationContext(),"AccountHolderName") + ", this is to confirm that you just sent R"+ amount +" to "+new BankAi().getName(new BankAi().getStokedKey(getApplicationContext(), "x-auth"),account)+" on iWallet");
             } catch (IOException e) {
                 e.printStackTrace();
             }

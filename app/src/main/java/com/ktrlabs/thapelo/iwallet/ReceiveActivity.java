@@ -39,6 +39,9 @@ public class ReceiveActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        quickReference.context = getApplicationContext();
+        quickReference.resources = getResources();
+
         final NumberFormat format = NumberFormat.getCurrencyInstance();
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
         QuickReference quickReference = new QuickReference();

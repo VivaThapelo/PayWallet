@@ -514,6 +514,45 @@ public class BankAi {
         return response;
     }
 
+    public String RequestTransaction(String account,String amount, String type, String myaccount,String auth, String[] location) throws IOException {
+        String response = null;
+        okhttp3.OkHttpClient httpClient = new okhttp3.OkHttpClient();
+        httpClient.retryOnConnectionFailure();
+        String lon,lat;
+        if (location!=null)  {
+            lon = location[0];
+            lat = location[1];
+        } else {
+            lon =  "0.0";
+            lat = "0.0";
+        }
+        okhttp3.RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("RequestorAccountNumber",myaccount+"@")
+                .addFormDataPart("RequesteeAccountNumber",account+"@")
+                .addFormDataPart("TransactionAmount",amount)
+                .addFormDataPart("Lon",lon)
+                .addFormDataPart("Lat",lat)
+                .addFormDataPart("Description",type)
+                .build();
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(base_url+"/transaction/request")
+                .addHeader("cache-control","no-cache")
+                .addHeader("content-type","multipart/form-data; boundary=---011000010111000001101001")
+                .addHeader("x-auth-token",auth)
+                .post(requestBody)
+                .build();
+
+        try {
+            okhttp3.Response httpResponse = httpClient.newCall(request).execute();
+            response = httpResponse.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return response;
+    }
+
     public JSONArray TransactionList(String xauth, String accnum) throws IOException {
         String response = null;
         Log.d("x-auth",xauth);

@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -27,8 +28,8 @@ import java.util.Arrays;
 
 public class QuickReference {
     private Integer QRcodeWidth = 250;
-    Context context = null;
-    Resources resources = null;
+    Context context =null;
+    Resources resources=null;
 
     public Bitmap getBar(String data) throws WriterException {
         int width = 284;
@@ -78,6 +79,7 @@ public class QuickReference {
 
                 pixels[offset + x] = bitMatrix.get(x, y) ?
                         resources.getColor(R.color.black) : resources.getColor(R.color.white);
+                   // ResourcesCompat.getColor(resources,R.color.black,context.getTheme()) : ResourcesCompat.getColor(context.getResources(),R.color.white,context.getTheme());
             }
         }
         Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);

@@ -39,8 +39,8 @@
                     <ImageView
                         android:layout_gravity="left"
                         android:elevation="1dp"
-                        android:onClick="gotoProfile"
-                        android:src="@mipmap/ic_profile"
+                        android:onClick="goToHelp"
+                        android:src="@mipmap/ic_help"
                         android:layout_width="36sp"
                         android:layout_height="36sp" />
 
@@ -56,6 +56,7 @@
                     <ImageView
                         android:elevation="1dp"
                         android:layout_gravity="right"
+                        android:onClick="gotoNotifications"
                         android:src="@mipmap/ic_notifications"
                         android:layout_width="36sp"
                         android:layout_height="36sp"  />
